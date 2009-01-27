@@ -1,0 +1,8 @@
+.deps
+.libs
+*.la
+*.lo
+Makefile
+Makefile.in
+svg-cairo-version.h
+xsvgversion.h

@@ -1,0 +1,26 @@
+Snapshot 0.1.6 (2005-06-15 Carl Worth <cworth@cworth.org>)
+==========================================================
+Track all changes in cairo API up to cairo 0.5.0 (which is now the 
+minimum version of cairo required).
+
+Bug fixes
+---------
+- Fix autogen.sh to call all commands through environment variables.
+
+Snapshot 0.1.5 (2005-02-13 Carl Worth <cworth@cworth.org>)
+==========================================================
+Big performance fix for SVG images with deep grouping within a group
+with opacity != 1.0, (thanks to TOKUNAGA Hiroyuki)
+
+Various bug fixes.
+
+Older snapshots
+===============
+
+2003-11-15  Richard Worth <richard@theworths.org>
+
+        * Renamed libxsvg to libsvg-cairo
+
+2002-??-??  Carl Worth  <cworth@east.isi.edu>
+
+        * Initial version of libxsvg
