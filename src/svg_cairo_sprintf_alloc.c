@@ -23,6 +23,9 @@
 #include <stdarg.h>
 #define __USE_ISOC99
 #include <stdio.h>
+#if defined (_MSC_VER)
+#define vsnprintf _vsnprintf
+#endif
 
 #include "svg-cairo-internal.h"
 
