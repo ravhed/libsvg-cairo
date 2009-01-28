@@ -22,11 +22,19 @@
 #ifndef SVG_CAIRO_INTERNAL_H
 #define SVG_CAIRO_INTERNAL_H
 #if HAVE_CONFIG_H
+#if defined(_MSC_VER)
+#include <win32_config.h>
+#else
 #include <config.h>
+#endif
 #endif
 
 #include "svg-cairo.h"
+#if !defined(_MSC_VER)
+/* XXX: defines in svg-cairo-version.h are currently not used, but what can be done
+to include svg-cairo-version.h.in in Windows builds */
 #include "svg-cairo-version.h"
+#endif
 
 #include <stdarg.h>
 
