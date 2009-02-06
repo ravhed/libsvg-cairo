@@ -655,6 +655,44 @@ _svg_cairo_set_text_chunk_width (void *closure, double width)
     return SVG_STATUS_SUCCESS;
 }
 
+#if !HAVE_PANGOCAIRO
+static svg_status_t
+_svg_cairo_select_font (svg_cairo_t *svg_cairo)
+{
+    char *family = svg_cairo->state->font_family;
+    unsigned int font_weight = svg_cairo->state->font_weight;
+    cairo_font_weight_t weight;
+    svg_font_style_t font_style = svg_cairo->state->font_style;
+    cairo_font_slant_t slant;
+
+    if (! svg_cairo->state->font_dirty)
+	return SVG_STATUS_SUCCESS;
+
+    if (font_weight >= 700)
+	weight = CAIRO_FONT_WEIGHT_BOLD;
+    else
+	weight = CAIRO_FONT_WEIGHT_NORMAL;
+
+    switch (font_style) {
+    case SVG_FONT_STYLE_ITALIC:
+	slant = CAIRO_FONT_SLANT_ITALIC;
+	break;
+    case SVG_FONT_STYLE_OBLIQUE:
+	slant = CAIRO_FONT_SLANT_OBLIQUE;
+	break;
+    default:
+	slant = CAIRO_FONT_SLANT_NORMAL;
+	break;
+    }
+
+    cairo_select_font_face (svg_cairo->cr, family, slant, weight);
+    cairo_set_font_size (svg_cairo->cr, svg_cairo->state->font_size);
+    svg_cairo->state->font_dirty = 0;
+
+    return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
+}
+#endif
+
 static svg_status_t
 _svg_cairo_text_advance_x (void		*closure,
 			   const char   *utf8,
@@ -936,44 +974,6 @@ _svg_cairo_set_fill_rule (void *closure, svg_fill_rule_t fill_rule)
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));    
 }
-
-#if !HAVE_PANGOCAIRO
-static svg_status_t
-_svg_cairo_select_font (svg_cairo_t *svg_cairo)
-{
-    char *family = svg_cairo->state->font_family;
-    unsigned int font_weight = svg_cairo->state->font_weight;
-    cairo_font_weight_t weight;
-    svg_font_style_t font_style = svg_cairo->state->font_style;
-    cairo_font_slant_t slant;
-
-    if (! svg_cairo->state->font_dirty)
-	return SVG_STATUS_SUCCESS;
-
-    if (font_weight >= 700)
-	weight = CAIRO_FONT_WEIGHT_BOLD;
-    else
-	weight = CAIRO_FONT_WEIGHT_NORMAL;
-
-    switch (font_style) {
-    case SVG_FONT_STYLE_ITALIC:
-	slant = CAIRO_FONT_SLANT_ITALIC;
-	break;
-    case SVG_FONT_STYLE_OBLIQUE:
-	slant = CAIRO_FONT_SLANT_OBLIQUE;
-	break;
-    default:
-	slant = CAIRO_FONT_SLANT_NORMAL;
-	break;
-    }
-
-    cairo_select_font_face (svg_cairo->cr, family, slant, weight);
-    cairo_set_font_size (svg_cairo->cr, svg_cairo->state->font_size);
-    svg_cairo->state->font_dirty = 0;
-
-    return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
-}
-#endif
 
 static svg_status_t
 _svg_cairo_set_font_family (void *closure, const char *family)
@@ -1881,7 +1881,7 @@ _svg_cairo_arc_to (void		*closure,
        user should be able to specify as well). I don't yet know the
        bounds of the error from the following computation of
        n_segs. Plus the "+ 0.001" looks just plain fishy. -cworth */
-    n_segs = ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
+    n_segs = (int)ceil (fabs (th_arc / (M_PI * 0.5 + 0.001)));
     
     for (i = 0; i < n_segs; i++) {
 	_svg_path_arc_segment (svg_cairo->cr, xc, yc,
