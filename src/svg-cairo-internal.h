@@ -101,6 +101,8 @@ struct svg_cairo {
 
     unsigned int viewport_width;
     unsigned int viewport_height;
+    
+    double text_chunk_width;
 };
 
 /* svg_cairo_sprintf_alloc.c */
