@@ -22,9 +22,7 @@
 #ifndef SVG_CAIRO_INTERNAL_H
 #define SVG_CAIRO_INTERNAL_H
 #if HAVE_CONFIG_H
-#if defined(_MSC_VER)
-#include <win32_config.h>
-#else
+#if !defined(_MSC_VER)
 #include <config.h>
 #endif
 #endif
