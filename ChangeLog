@@ -1,3 +1,69 @@
+2009-02-08 17:23  philipn
+
+	* src/svg-cairo-internal.h, win32_config.h: simplify by not
+	  including win32 config
+
+2009-02-07 14:27  philipn
+
+	* src/: svg-cairo.h, svg_cairo.c: add function to set the base
+	  directory name when FILE or buffer is parsed
+
+2009-02-06 20:31  philipn
+
+	* src/svg_cairo.c: move function up to before it is referenced to
+	  avoid msvc warning
+
+2009-02-06 15:39  philipn
+
+	* src/: svg-cairo-internal.h, svg_cairo.c: changes for new text
+	  rendering method used by libsvg
+
+2009-01-28 12:43  philipn
+
+	* src/svg_cairo_sprintf_alloc.c: win32 compat
+
+2009-01-28 12:42  philipn
+
+	* src/svg_cairo.c: font size is now a svg_length_t. Get the image
+	  bitmap data using the new 2 step svg api hierarchy callbacks now
+	  have id and class parameters implementation of new functions
+	  defined in svg-cairo.h
+
+2009-01-28 12:42  philipn
+
+	* src/svg-cairo.h: add alternative render function allowing
+	  different svg_t to be used. Allow the render engine to be gotten,
+	  e.g. for setting an initial context Allow the drawing context to
+	  be set when getting and using the render engine
+
+2009-01-28 12:41  philipn
+
+	* src/svg-cairo-internal.h: win32 compat include
+
+2009-01-28 12:41  philipn
+
+	* win32_config.h: win32 config
+
+2009-01-27 18:03  philipn
+
+	* .cvsignore, AUTHORS, COPYING, Makefile.am, NEWS, README,
+	  RELEASING, autogen.sh, configure.in, libsvg-cairo.pc.in,
+	  src/.cvsignore, src/Makefile.am, src/svg-cairo-internal.h,
+	  src/svg-cairo-version.h.in, src/svg-cairo.h,
+	  src/svg_cairo_sprintf_alloc.c, src/svg_cairo_state.c,
+	  src/svg_cairo.c: Initial revision
+
+2009-01-27 18:03  philipn
+
+	* .cvsignore, AUTHORS, COPYING, Makefile.am, NEWS, README,
+	  RELEASING, autogen.sh, configure.in, libsvg-cairo.pc.in,
+	  src/.cvsignore, src/Makefile.am, src/svg-cairo-internal.h,
+	  src/svg-cairo-version.h.in, src/svg-cairo.h,
+	  src/svg_cairo_sprintf_alloc.c, src/svg_cairo_state.c,
+	  src/svg_cairo.c: copy from cvs
+	  -d:pserver:anonymous@cvs.cairographics.org:/cvs/cairo co -D
+	  2009-01-01 libsvg-cairo
+
 2005-08-13  Jason Dorje Short  <jdorje@users.sf.net>
 	* src/svg_cairo.c: (_svg_cairo_length_to_pixel):
 	Use svg_get_dpi to query the DPI rather than assuming it to be 100.

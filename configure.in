@@ -3,7 +3,7 @@ AC_INIT(src/svg-cairo.h)
 dnl ===========================================================================
 
 # Package version number, (as distinct from shared library version)
-LIBSVG_CAIRO_VERSION=0.1.6-head
+LIBSVG_CAIRO_VERSION=0.2.0-svg2swf
 
 # libtool shared library version
 

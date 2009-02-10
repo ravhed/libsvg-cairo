@@ -1,3 +1,16 @@
+Snapshot 0.2.0 (2005-06-15 Carl Worth <cworth@cworth.org>)
+==========================================================
+- Copied code from cairo graphics CVS
+- Add support for compiling on Windows
+- Added functions to allow a different svg_t parse tree to be rendered from and
+a function to return the render engine
+- Changes to match changes to the libsvg API 0.2.0
+
+Bug fixes
+---------
+- type casts etc. to avoid MSVC compiler warnings
+
+
 Snapshot 0.1.6 (2005-06-15 Carl Worth <cworth@cworth.org>)
 ==========================================================
 Track all changes in cairo API up to cairo 0.5.0 (which is now the 
