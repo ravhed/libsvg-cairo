@@ -49,10 +49,13 @@ svg_cairo_status_t
 svg_cairo_destroy (svg_cairo_t *svg_cairo);
 
 svg_cairo_status_t
-svg_cairo_parse (svg_cairo_t *svg_cairo, const char *filename);
+svg_cairo_parse (svg_cairo_t *svg_cairo, const char *uri_or_filename);
 
 svg_status_t
-svg_cairo_set_dir_name (svg_cairo_t *svg_cairo, const char *dir_name);
+svg_cairo_set_base_directory (svg_cairo_t *svg_cairo, const char *directory);
+
+svg_status_t
+svg_cairo_set_base_uri (svg_cairo_t *svg_cairo, const char *abs_uri);
 
 svg_cairo_status_t
 svg_cairo_parse_file (svg_cairo_t *svg_cairo, FILE *file);
