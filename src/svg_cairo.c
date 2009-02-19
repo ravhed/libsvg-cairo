@@ -96,6 +96,9 @@ _svg_cairo_text_advance_x (void		*closure,
 			   const char 	*utf8,
 			   double	*advance);
 
+static svg_status_t 
+_svg_cairo_set_clip_rule (void *closure, svg_clip_rule_t clip_rule);
+
 static svg_status_t
 _svg_cairo_set_color (void *closure, const svg_color_t *color);
 
@@ -156,6 +159,13 @@ _svg_cairo_transform (void *closure,
 		      double c, double d,
 		      double e, double f);
 
+static svg_status_t 
+_svg_cairo_viewport_clipping_path (void *closure, 
+    				   svg_length_t *top,
+				   svg_length_t *right,
+				   svg_length_t *bottom,
+				   svg_length_t *left);
+
 static svg_status_t
 _svg_cairo_apply_view_box (void *closure,
 			   svg_view_box_t view_box,
@@ -166,6 +176,9 @@ static svg_status_t
 _svg_cairo_set_viewport_dimension (void *closure,
 				   svg_length_t *width,
 				   svg_length_t *height);
+
+static svg_status_t
+_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path);
 
 static svg_status_t
 _svg_cairo_render_line (void *closure,
@@ -230,12 +243,14 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_end_element,
     _svg_cairo_end_group,
     /* path creation */
-    _svg_cairo_move_to,
-    _svg_cairo_line_to,
-    _svg_cairo_curve_to,
-    _svg_cairo_quadratic_curve_to,
-    _svg_cairo_arc_to,
-    _svg_cairo_close_path,
+    {
+	_svg_cairo_move_to,
+	_svg_cairo_line_to,
+	_svg_cairo_curve_to,
+	_svg_cairo_quadratic_curve_to,
+	_svg_cairo_arc_to,
+	_svg_cairo_close_path,
+    },
     /* text positioning */
     _svg_cairo_set_text_position_x,
     _svg_cairo_set_text_position_y,
@@ -243,6 +258,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_text_chunk_width,
     _svg_cairo_text_advance_x,
     /* style */
+    _svg_cairo_set_clip_rule,
     _svg_cairo_set_color,
     _svg_cairo_set_fill_opacity,
     _svg_cairo_set_fill_paint,
@@ -263,8 +279,11 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_text_anchor,
     /* transform */
     _svg_cairo_transform,
+    _svg_cairo_viewport_clipping_path,
     _svg_cairo_apply_view_box,
     _svg_cairo_set_viewport_dimension,
+    /* clip path */
+    _svg_cairo_set_clip_path,
     /* drawing */
     _svg_cairo_render_line,
     _svg_cairo_render_path,
@@ -731,6 +750,14 @@ _svg_cairo_text_advance_x (void		*closure,
     cairo_text_extents (svg_cairo->cr, utf8, &extents);
     *advance = extents.x_advance;
 #endif
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t 
+_svg_cairo_set_clip_rule (void *closure, svg_clip_rule_t clip_rule)
+{
+    /* XXX: not implemented */
+    
     return SVG_STATUS_SUCCESS;
 }
 
@@ -1229,6 +1256,14 @@ _svg_cairo_transform (void *closure,
 }
 
 static svg_status_t
+_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t
 _svg_cairo_render_line (void *closure,
 		   svg_length_t *x1_len, svg_length_t *y1_len,
 		   svg_length_t *x2_len, svg_length_t *y2_len)
@@ -1684,6 +1719,18 @@ _svg_cairo_length_to_pixel (svg_cairo_t * svg_cairo, svg_length_t *length, doubl
 	*pixel = length->value;
     }
 
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t 
+_svg_cairo_viewport_clipping_path (void *closure, 
+    				   svg_length_t *top,
+				   svg_length_t *right,
+				   svg_length_t *bottom,
+				   svg_length_t *left)
+{
+    /* XXX: not implemented */
+    
     return SVG_STATUS_SUCCESS;
 }
 
