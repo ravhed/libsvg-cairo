@@ -408,7 +408,7 @@ svg_cairo_render_2 (svg_cairo_t *svg_cairo, svg_t *svg, cairo_t *cr)
 }
 
 svg_cairo_status_t
-svg_cairo_render_element (svg_cairo_t *svg_cairo, 
+svg_cairo_element_render (svg_cairo_t *svg_cairo, 
 			  svg_t	*svg, 
 			  svg_element_t *element,
 			  cairo_t *cr)
@@ -421,6 +421,26 @@ svg_cairo_render_element (svg_cairo_t *svg_cairo,
 	svg_cairo->svg = svg;
     
     status = svg_element_render (element, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
+    
+    svg_cairo->svg = orig_svg;
+    
+    return status;
+}
+
+svg_cairo_status_t
+svg_cairo_element_ref_render (svg_cairo_t 	*svg_cairo, 
+			      svg_t		*svg, 
+			      svg_element_ref_t	*element_ref,
+			      cairo_t 		*cr)
+{
+    svg_t *orig_svg = svg_cairo->svg;
+    svg_cairo_status_t status;
+    
+    svg_cairo->cr = cr;
+    if (svg)
+	svg_cairo->svg = svg;
+    
+    status = svg_element_ref_render (element_ref, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
     
     svg_cairo->svg = orig_svg;
     
@@ -886,10 +906,9 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
 
 static svg_status_t
 _svg_cairo_set_pattern (svg_cairo_t *svg_cairo,
-			svg_element_t *pattern_element,
+			svg_pattern_t *pattern,
 			svg_cairo_render_type_t type)
 {
-    svg_pattern_t *pattern = svg_element_pattern (pattern_element);
     cairo_surface_t *pattern_surface;
     cairo_pattern_t *surface_pattern;
     double x_px, y_px, width_px, height_px;
@@ -927,7 +946,7 @@ _svg_cairo_set_pattern (svg_cairo_t *svg_cairo,
     svg_cairo->state->fill_paint.type = SVG_PAINT_TYPE_NONE;
     svg_cairo->state->stroke_paint.type = SVG_PAINT_TYPE_NONE;
     
-    svg_element_render (pattern->group_element, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
+    svg_element_ref_render (pattern->element_ref, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
     _svg_cairo_pop_state (svg_cairo);
 
     cairo_restore (svg_cairo->cr);
@@ -968,7 +987,7 @@ _svg_cairo_set_paint_and_opacity (svg_cairo_t *svg_cairo, svg_paint_t *paint, do
 	    return status;
 	break;
     case SVG_PAINT_TYPE_PATTERN:
-	status = _svg_cairo_set_pattern (svg_cairo, paint->p.pattern_element, type);
+	status = _svg_cairo_set_pattern (svg_cairo, paint->p.pattern, type);
 	if (status)
 	    return status;
 	break;
