@@ -180,6 +180,9 @@ _svg_cairo_set_viewport_dimension (void *closure,
 static svg_status_t
 _svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path);
 
+static svg_status_t 
+_svg_cairo_set_mask (void *closure, const svg_mask_t *mask);
+
 static svg_status_t
 _svg_cairo_render_line (void *closure,
 			svg_length_t *x1_len, svg_length_t *y1_len,
@@ -284,6 +287,8 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_viewport_dimension,
     /* clip path */
     _svg_cairo_set_clip_path,
+    /* mask */
+    _svg_cairo_set_mask,
     /* drawing */
     _svg_cairo_render_line,
     _svg_cairo_render_path,
@@ -821,9 +826,9 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
     cairo_matrix_init_identity (&matrix);
 
     switch (gradient->units) {
-    case SVG_GRADIENT_UNITS_USER:
+    case SVG_COORD_SPACE_UNITS_USER:
 	break;
-    case SVG_GRADIENT_UNITS_BBOX:
+    case SVG_COORD_SPACE_UNITS_BBOX:
     {
 	double x1, y1, x2, y2;
 	
@@ -1276,6 +1281,14 @@ _svg_cairo_transform (void *closure,
 
 static svg_status_t
 _svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t
+_svg_cairo_set_mask (void *closure, const svg_mask_t *mask)
 {
     /* XXX: not implemented */
     
