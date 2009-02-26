@@ -173,9 +173,11 @@ _svg_cairo_apply_view_box (void *closure,
 			   svg_length_t *height);
 
 static svg_status_t
-_svg_cairo_set_viewport_dimension (void *closure,
-				   svg_length_t *width,
-				   svg_length_t *height);
+_svg_cairo_set_viewport (void *closure,
+			 svg_length_t *x,
+			 svg_length_t *y,
+			 svg_length_t *width,
+			 svg_length_t *height);
 
 static svg_status_t
 _svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path);
@@ -284,7 +286,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_transform,
     _svg_cairo_viewport_clipping_path,
     _svg_cairo_apply_view_box,
-    _svg_cairo_set_viewport_dimension,
+    _svg_cairo_set_viewport,
     /* clip path */
     _svg_cairo_set_clip_path,
     /* mask */
@@ -461,22 +463,31 @@ svg_cairo_set_drawing_context (svg_cairo_t *svg_cairo, cairo_t *cr)
 }
 
 static svg_status_t
-_svg_cairo_set_viewport_dimension (void *closure,
-		    	      svg_length_t *width,
-		    	      svg_length_t *height)
+_svg_cairo_set_viewport (void *closure,
+			 svg_length_t *x,
+			 svg_length_t *y,
+			 svg_length_t *width,
+			 svg_length_t *height)
 {
     svg_cairo_t *svg_cairo = closure;
+    double vx, vy;
     double vwidth, vheight;
+
+    _svg_cairo_length_to_pixel (svg_cairo, x, &vx);
+    _svg_cairo_length_to_pixel (svg_cairo, y, &vy);
 
     _svg_cairo_length_to_pixel (svg_cairo, width, &vwidth);
     _svg_cairo_length_to_pixel (svg_cairo, height, &vheight);
+
+
+    cairo_translate (svg_cairo->cr, vx, vy);
 
     /* TODO : change svg_cairo->state->viewport_width to type double
        if that accuracy is needed. */
     svg_cairo->state->viewport_width  = (unsigned int)vwidth;
     svg_cairo->state->viewport_height = (unsigned int)vheight;
 
-    return SVG_CAIRO_STATUS_SUCCESS;
+    return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));    
 }
 
 svg_cairo_status_t
@@ -961,7 +972,7 @@ _svg_cairo_set_pattern (svg_cairo_t *svg_cairo,
 
     surface_pattern = cairo_pattern_create_for_surface (pattern_surface);
     cairo_surface_destroy (pattern_surface);
-    
+
     cairo_pattern_set_extend (surface_pattern, CAIRO_EXTEND_REPEAT);
     
     cairo_set_source (svg_cairo->cr, surface_pattern);
