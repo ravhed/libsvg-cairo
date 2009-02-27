@@ -153,6 +153,9 @@ _svg_cairo_set_stroke_width (void *closure, svg_length_t *width);
 static svg_status_t
 _svg_cairo_set_text_anchor (void *closure, svg_text_anchor_t text_anchor);
 
+static svg_status_t 
+_svg_cairo_set_visibility (void *closure, int visible);
+
 static svg_status_t
 _svg_cairo_transform (void *closure,
 		      double a, double b,
@@ -282,6 +285,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_stroke_paint,
     _svg_cairo_set_stroke_width,
     _svg_cairo_set_text_anchor,
+    _svg_cairo_set_visibility,
     /* transform */
     _svg_cairo_transform,
     _svg_cairo_viewport_clipping_path,
@@ -1272,6 +1276,14 @@ _svg_cairo_set_text_anchor (void *closure, svg_text_anchor_t text_anchor)
 
     svg_cairo->state->text_anchor = text_anchor;
 
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t 
+_svg_cairo_set_visibility (void *closure, int visible)
+{
+    /* XXX: not yet implemented */
+    
     return SVG_STATUS_SUCCESS;
 }
 
