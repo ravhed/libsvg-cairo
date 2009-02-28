@@ -1,5 +1,10 @@
-Snapshot 0.2.0 (2005-06-15 Carl Worth <cworth@cworth.org>)
-==========================================================
+Snapshot 0.3.0 (2009-02-28 Philip de Nier <philipn@users.sourceforge.net>)
+==========================================================================
+- Various changes (some as placeholders) to match changes in the libsvg v0.3
+
+
+Snapshot 0.2.0 (2009-02-10 Philip de Nier <philipn@users.sourceforge.net>)
+==========================================================================
 - Copied code from cairo graphics CVS
 - Add support for compiling on Windows
 - Added functions to allow a different svg_t parse tree to be rendered from and

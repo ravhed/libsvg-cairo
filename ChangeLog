@@ -1,3 +1,41 @@
+2009-02-27 12:18  philipn
+
+	* src/svg_cairo.c: added placeholder for new set_visibility
+	  callback
+
+2009-02-26 14:11  philipn
+
+	* src/svg_cairo.c: updated following libsvg's change of
+	  set_viewport_dimension to set_viewport adding translation from
+	  the x and y parameters in the set_viewport call
+
+2009-02-23 11:47  philipn
+
+	* src/svg_cairo.c: added placeholder for function set_mask added to
+	  render engine changed name of bbox/user units following change in
+	  libsvg
+
+2009-02-20 11:12  philipn
+
+	* src/: svg-cairo.h, svg_cairo.c: added element ref render function
+	  which calls the associated libsvg function changes to pattern
+	  getting and renderring following changes to libsvg
+
+2009-02-19 15:09  philipn
+
+	* src/svg_cairo.c: added placeholder implementation for new
+	  clipping path callbacks from libsvg modified render engine struct
+	  to match new patch construction sub-structure
+
+2009-02-15 14:17  philipn
+
+	* src/: svg-cairo.h, svg_cairo.c: replace base directory setting
+	  function with new base setting functions from libsvg
+
+2009-02-10 19:06  philipn
+
+	* NEWS, configure.in: updates for snapshot 0.2
+
 2009-02-08 17:23  philipn
 
 	* src/svg-cairo-internal.h, win32_config.h: simplify by not
