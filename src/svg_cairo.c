@@ -115,7 +115,7 @@ static svg_status_t
 _svg_cairo_set_font_family (void *closure, const char *family);
 
 static svg_status_t
-_svg_cairo_set_font_size (void *closure, svg_length_t *size);
+_svg_cairo_set_font_size (void *closure, double size);
 
 static svg_status_t
 _svg_cairo_set_font_style (void *closure, svg_font_style_t font_style);
@@ -232,6 +232,13 @@ _svg_cairo_measure_position (void	    *closure,
 			     double	    *oy);
 			   
 static svg_status_t
+_svg_cairo_measure_font_size (void		*closure,
+			      const char	*font_family,
+			      double		parent_font_size,
+			      svg_length_t	*in_size,
+			      double		*out_size);
+			   
+static svg_status_t
 _cairo_status_to_svg_status (cairo_status_t xr_status);
 
 static svg_status_t
@@ -266,6 +273,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_text_chunk_width,
     _svg_cairo_text_advance_x,
     /* style */
+    _svg_cairo_set_clip_path,
     _svg_cairo_set_clip_rule,
     _svg_cairo_set_color,
     _svg_cairo_set_fill_opacity,
@@ -275,6 +283,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_font_size,
     _svg_cairo_set_font_style,
     _svg_cairo_set_font_weight,
+    _svg_cairo_set_mask,
     _svg_cairo_set_opacity,
     _svg_cairo_set_stroke_dash_array,
     _svg_cairo_set_stroke_dash_offset,
@@ -291,10 +300,6 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_viewport_clipping_path,
     _svg_cairo_apply_view_box,
     _svg_cairo_set_viewport,
-    /* clip path */
-    _svg_cairo_set_clip_path,
-    /* mask */
-    _svg_cairo_set_mask,
     /* drawing */
     _svg_cairo_render_line,
     _svg_cairo_render_path,
@@ -304,6 +309,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_render_image,
     /* miscellaneous */
     _svg_cairo_measure_position,
+    _svg_cairo_measure_font_size,
 };
 
 svg_cairo_status_t
@@ -793,6 +799,14 @@ _svg_cairo_text_advance_x (void		*closure,
     return SVG_STATUS_SUCCESS;
 }
 
+static svg_status_t
+_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
+}
+
 static svg_status_t 
 _svg_cairo_set_clip_rule (void *closure, svg_clip_rule_t clip_rule)
 {
@@ -1073,18 +1087,15 @@ _svg_cairo_set_font_family (void *closure, const char *family)
 }
 
 static svg_status_t
-_svg_cairo_set_font_size (void *closure, svg_length_t *size)
+_svg_cairo_set_font_size (void *closure, double size)
 {
     svg_cairo_t *svg_cairo = closure;
-    double font_size;
-
-    _svg_cairo_length_to_pixel (svg_cairo, size, &font_size);
 
 #if HAVE_PANGOCAIRO
     pango_font_description_set_absolute_size (svg_cairo->state->font_description,
-					      (int) (font_size * PANGO_SCALE));
+					      (int) (size * PANGO_SCALE));
 #else
-    svg_cairo->state->font_size = font_size;
+    svg_cairo->state->font_size = size;
     svg_cairo->state->font_dirty = 1;
 #endif
 
@@ -1136,6 +1147,14 @@ _svg_cairo_set_font_weight (void *closure, unsigned int font_weight)
 #endif
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
+}
+
+static svg_status_t
+_svg_cairo_set_mask (void *closure, const svg_mask_t *mask)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
 }
 
 static svg_status_t
@@ -1300,22 +1319,6 @@ _svg_cairo_transform (void *closure,
     cairo_transform (svg_cairo->cr, &matrix);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));    
-}
-
-static svg_status_t
-_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t
-_svg_cairo_set_mask (void *closure, const svg_mask_t *mask)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
 }
 
 static svg_status_t
@@ -1634,7 +1637,40 @@ _svg_cairo_measure_position (void	    *closure,
 
     return SVG_STATUS_SUCCESS;
 }
-			   
+
+static svg_status_t
+_svg_cairo_measure_font_size (void		*closure,
+			      const char	*font_family,
+			      double		parent_font_size,
+			      svg_length_t	*in_size,
+			      double		*out_size)
+{
+    svg_cairo_t *svg_cairo = closure;
+
+    switch (in_size->unit) {
+    case SVG_LENGTH_UNIT_PX:
+    case SVG_LENGTH_UNIT_CM:
+    case SVG_LENGTH_UNIT_MM:
+    case SVG_LENGTH_UNIT_IN:
+    case SVG_LENGTH_UNIT_PT:
+    case SVG_LENGTH_UNIT_PC:
+    	_svg_cairo_length_to_pixel (svg_cairo, in_size, out_size);
+	break;
+    case SVG_LENGTH_UNIT_EM:
+    case SVG_LENGTH_UNIT_EX:
+    	/* XXX: should info obtained from the font family be used here? */
+    	_svg_cairo_length_to_pixel (svg_cairo, in_size, out_size);
+	break;
+    case SVG_LENGTH_UNIT_PCT:
+	*out_size = (in_size->value / 100.0) * parent_font_size;
+	break;
+    default:
+	*out_size = in_size->value;
+    }
+    
+    return SVG_STATUS_SUCCESS;
+}
+
 static void
 _svg_cairo_copy_cairo_state (svg_cairo_t *svg_cairo,
 			     cairo_t     *old_cr,
