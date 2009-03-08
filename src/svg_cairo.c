@@ -96,6 +96,9 @@ _svg_cairo_text_advance_x (void		*closure,
 			   const char 	*utf8,
 			   double	*advance);
 
+static svg_status_t
+_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path);
+
 static svg_status_t 
 _svg_cairo_set_clip_rule (void *closure, svg_clip_rule_t clip_rule);
 
@@ -122,6 +125,18 @@ _svg_cairo_set_font_style (void *closure, svg_font_style_t font_style);
 
 static svg_status_t
 _svg_cairo_set_font_weight (void *closure, unsigned int weight);
+
+static svg_status_t
+_svg_cairo_set_marker_end (void *closure, const svg_marker_t *marker);
+
+static svg_status_t
+_svg_cairo_set_marker_mid (void *closure, const svg_marker_t *marker);
+
+static svg_status_t
+_svg_cairo_set_marker_start (void *closure, const svg_marker_t *marker);
+
+static svg_status_t 
+_svg_cairo_set_mask (void *closure, const svg_mask_t *mask);
 
 static svg_status_t
 _svg_cairo_set_opacity (void *closure, double opacity);
@@ -181,12 +196,6 @@ _svg_cairo_set_viewport (void *closure,
 			 svg_length_t *y,
 			 svg_length_t *width,
 			 svg_length_t *height);
-
-static svg_status_t
-_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path);
-
-static svg_status_t 
-_svg_cairo_set_mask (void *closure, const svg_mask_t *mask);
 
 static svg_status_t
 _svg_cairo_render_line (void *closure,
@@ -283,6 +292,9 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_font_size,
     _svg_cairo_set_font_style,
     _svg_cairo_set_font_weight,
+    _svg_cairo_set_marker_end,
+    _svg_cairo_set_marker_mid,
+    _svg_cairo_set_marker_start,
     _svg_cairo_set_mask,
     _svg_cairo_set_opacity,
     _svg_cairo_set_stroke_dash_array,
@@ -1147,6 +1159,30 @@ _svg_cairo_set_font_weight (void *closure, unsigned int font_weight)
 #endif
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
+}
+
+static svg_status_t
+_svg_cairo_set_marker_end (void *closure, const svg_marker_t *marker)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t
+_svg_cairo_set_marker_mid (void *closure, const svg_marker_t *marker)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t
+_svg_cairo_set_marker_start (void *closure, const svg_marker_t *marker)
+{
+    /* XXX: not implemented */
+    
+    return SVG_STATUS_SUCCESS;
 }
 
 static svg_status_t
