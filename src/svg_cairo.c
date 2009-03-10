@@ -1868,66 +1868,26 @@ _svg_cairo_apply_view_box (void *closure,
 		      svg_length_t *height)
 {
     svg_cairo_t *svg_cairo = closure;
-    double vpar, svgar;
-    double logic_width, logic_height;
-    double logic_x, logic_y;
     double phys_width, phys_height;
+    double svg_matrix[6];
+    cairo_matrix_t cairo_matrix;
+    svg_status_t status;
+
     _svg_cairo_length_to_pixel (svg_cairo, width, &phys_width);
     _svg_cairo_length_to_pixel (svg_cairo, height, &phys_height);
 
-    vpar = view_box.box.width / view_box.box.height;
-    svgar = phys_width / phys_height;
-    logic_x = view_box.box.x;
-    logic_y = view_box.box.y;
-    logic_width = view_box.box.width;
-    logic_height = view_box.box.height;
-
-    if (view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_NONE)
-    {
-	cairo_scale (svg_cairo->cr,
-		     phys_width / logic_width,
-		     phys_height / logic_height);
-	cairo_translate (svg_cairo->cr, -logic_x, -logic_y);
-    }
-    else if ((vpar < svgar && view_box.meet_or_slice == SVG_MEET_OR_SLICE_MEET) ||
-    	     (vpar >= svgar && view_box.meet_or_slice == SVG_MEET_OR_SLICE_SLICE))
-    {
-	cairo_scale (svg_cairo->cr, phys_height / logic_height, phys_height / logic_height);
-
-	if (view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMINYMIN ||
-	    view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMINYMID ||
-	    view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMINYMAX)
-	    cairo_translate (svg_cairo->cr, -logic_x, -logic_y);
-	else if(view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMIDYMIN ||
-		view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMIDYMID ||
-		view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMIDYMAX)
-            cairo_translate (svg_cairo->cr,
-			 -logic_x - (logic_width - phys_width * logic_height / phys_height) / 2,
-			 -logic_y);
-	else
-            cairo_translate (svg_cairo->cr,
-			 -logic_x - (logic_width - phys_width * logic_height / phys_height),
-			 -logic_y);
-    }
-    else
-    {
-	cairo_scale (svg_cairo->cr, phys_width / logic_width, phys_width / logic_width);
-
-	if (view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMINYMIN ||
-	    view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMIDYMIN ||
-	    view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMAXYMIN)
-	    cairo_translate (svg_cairo->cr, -logic_x, -logic_y);
-	else if(view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMINYMID ||
-		view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMIDYMID ||
-		view_box.aspect_ratio == SVG_PRESERVE_ASPECT_RATIO_XMAXYMID)
-	    cairo_translate (svg_cairo->cr,
-			 -logic_x,
-			 -logic_y - (logic_height - phys_height * logic_width / phys_width) / 2);
-	else
-	    cairo_translate (svg_cairo->cr,
-			 -logic_x,
-			 -logic_y - (logic_height - phys_height * logic_width / phys_width));
-    }
+    status = svg_get_viewbox_transform (&view_box, phys_width, phys_height, svg_matrix);
+    if (status)
+	return status;
+    
+    cairo_matrix.xx = svg_matrix[0];
+    cairo_matrix.yx = svg_matrix[1];
+    cairo_matrix.xy = svg_matrix[2];
+    cairo_matrix.yy = svg_matrix[3];
+    cairo_matrix.x0 = svg_matrix[4];
+    cairo_matrix.y0 = svg_matrix[5];
+    
+    cairo_transform (svg_cairo->cr, &cairo_matrix);
 
     return SVG_STATUS_SUCCESS;
 }
