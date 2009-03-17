@@ -172,10 +172,7 @@ static svg_status_t
 _svg_cairo_set_visibility (void *closure, int visible);
 
 static svg_status_t
-_svg_cairo_transform (void *closure,
-		      double a, double b,
-		      double c, double d,
-		      double e, double f);
+_svg_cairo_transform (void *closure, const svg_transform_t *transform);
 
 static svg_status_t 
 _svg_cairo_viewport_clipping_path (void *closure, 
@@ -872,7 +869,7 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
 {
     svg_gradient_stop_t *stop;
     cairo_pattern_t *pattern = NULL;
-    cairo_matrix_t matrix, gradient_matrix;
+    cairo_matrix_t matrix;
     int i;
 
     cairo_matrix_init_identity (&matrix);
@@ -945,11 +942,7 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
     
     cairo_pattern_set_filter (pattern, CAIRO_FILTER_BILINEAR);
 
-    cairo_matrix_init (&gradient_matrix,
-		       gradient->transform[0], gradient->transform[1],
-		       gradient->transform[2], gradient->transform[3],
-		       gradient->transform[4], gradient->transform[5]);
-    cairo_matrix_multiply (&matrix, &matrix, &gradient_matrix);
+    cairo_matrix_multiply (&matrix, &matrix, (const cairo_matrix_t*)&gradient->transform);
     
     cairo_matrix_invert (&matrix);
     cairo_pattern_set_matrix (pattern, &matrix);
@@ -1354,16 +1347,11 @@ _svg_cairo_set_visibility (void *closure, int visible)
 }
 
 static svg_status_t
-_svg_cairo_transform (void *closure,
-		  double a, double b,
-		  double c, double d,
-		  double e, double f)
+_svg_cairo_transform (void *closure, const svg_transform_t *transform)
 {
     svg_cairo_t *svg_cairo = closure;
-    cairo_matrix_t matrix;
 
-    cairo_matrix_init (&matrix, a, b, c, d, e, f);
-    cairo_transform (svg_cairo->cr, &matrix);
+    cairo_transform (svg_cairo->cr, (const cairo_matrix_t*)transform);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));    
 }
@@ -1931,25 +1919,17 @@ _svg_cairo_apply_view_box (void *closure,
 {
     svg_cairo_t *svg_cairo = closure;
     double phys_width, phys_height;
-    double svg_matrix[6];
-    cairo_matrix_t cairo_matrix;
+    svg_transform_t transform;
     svg_status_t status;
 
     _svg_cairo_length_to_pixel (svg_cairo, width, &phys_width);
     _svg_cairo_length_to_pixel (svg_cairo, height, &phys_height);
 
-    status = svg_get_viewbox_transform (&view_box, phys_width, phys_height, svg_matrix);
+    status = svg_get_viewbox_transform (&view_box, phys_width, phys_height, &transform);
     if (status)
 	return status;
     
-    cairo_matrix.xx = svg_matrix[0];
-    cairo_matrix.yx = svg_matrix[1];
-    cairo_matrix.xy = svg_matrix[2];
-    cairo_matrix.yy = svg_matrix[3];
-    cairo_matrix.x0 = svg_matrix[4];
-    cairo_matrix.y0 = svg_matrix[5];
-    
-    cairo_transform (svg_cairo->cr, &cairo_matrix);
+    cairo_transform (svg_cairo->cr, (cairo_matrix_t*)&transform);
 
     return SVG_STATUS_SUCCESS;
 }
