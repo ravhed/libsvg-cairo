@@ -183,7 +183,7 @@ _svg_cairo_viewport_clipping_path (void *closure,
 
 static svg_status_t
 _svg_cairo_apply_view_box (void *closure,
-			   svg_view_box_t view_box,
+			   svg_view_box_t *view_box,
 			   svg_length_t *width,
 			   svg_length_t *height);
 
@@ -1913,7 +1913,7 @@ _svg_cairo_viewport_clipping_path (void *closure,
 
 static svg_status_t
 _svg_cairo_apply_view_box (void *closure,
-		      svg_view_box_t view_box,
+		      svg_view_box_t *view_box,
 		      svg_length_t *width,
 		      svg_length_t *height)
 {
@@ -1925,7 +1925,7 @@ _svg_cairo_apply_view_box (void *closure,
     _svg_cairo_length_to_pixel (svg_cairo, width, &phys_width);
     _svg_cairo_length_to_pixel (svg_cairo, height, &phys_height);
 
-    status = svg_get_viewbox_transform (&view_box, phys_width, phys_height, &transform);
+    status = svg_get_viewbox_transform (view_box, phys_width, phys_height, &transform);
     if (status)
 	return status;
     
