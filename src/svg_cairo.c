@@ -203,6 +203,12 @@ static svg_status_t
 _svg_cairo_render_path (void *closure);
 
 static svg_status_t
+_svg_cairo_render_circle (void *closure,
+			  svg_length_t *cx,
+			  svg_length_t *cy,
+			  svg_length_t *r);
+
+static svg_status_t
 _svg_cairo_render_ellipse (void *closure,
 			   svg_length_t *cx,
 			   svg_length_t *cy,
@@ -322,6 +328,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     /* drawing */
     _svg_cairo_render_line,
     _svg_cairo_render_path,
+    _svg_cairo_render_circle,
     _svg_cairo_render_ellipse,
     _svg_cairo_render_rect,
     _svg_cairo_render_text,
@@ -1417,6 +1424,35 @@ _svg_cairo_render_path (void *closure)
      * easier, and doesn't hurt much to just do it here
      * unconditionally. */
     cairo_new_path (svg_cairo->cr);
+
+    return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
+}
+
+static svg_status_t
+_svg_cairo_render_circle (void *closure,
+		      	  svg_length_t *cx_len,
+			  svg_length_t *cy_len,
+			  svg_length_t *r_len)
+{
+    svg_cairo_t *svg_cairo = closure;
+    cairo_matrix_t matrix;
+
+    double cx, cy, r;
+
+    _svg_cairo_length_to_pixel (svg_cairo, cx_len, &cx);
+    _svg_cairo_length_to_pixel (svg_cairo, cy_len, &cy);
+    _svg_cairo_length_to_pixel (svg_cairo, r_len, &r);
+
+    cairo_get_matrix (svg_cairo->cr, &matrix);
+
+    cairo_translate (svg_cairo->cr, cx, cy);
+    cairo_move_to (svg_cairo->cr, r, 0.0);
+    cairo_arc (svg_cairo->cr, 0, 0, r, 0, 2 * M_PI);
+    cairo_close_path (svg_cairo->cr);
+
+    cairo_set_matrix (svg_cairo->cr, &matrix);
+
+     _svg_cairo_render_path (svg_cairo);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
