@@ -231,6 +231,7 @@ _svg_cairo_render_text (void 	      *closure,
 static svg_status_t
 _svg_cairo_render_image (void		*closure,
 			 const char 	*url,
+			 svg_view_box_t	*view_box_template,
 			 svg_length_t 	*x,
 			 svg_length_t 	*y,
 			 svg_length_t 	*width,
@@ -241,6 +242,7 @@ _svg_cairo_render_image_buffer (void		*closure,
 			 	const char	*media_type,
 				const char	*buffer,
 				size_t		buffer_size,
+				svg_view_box_t	*view_box_template,
 				svg_length_t 	*x,
 				svg_length_t 	*y,
 				svg_length_t 	*width,
@@ -1639,6 +1641,7 @@ _svg_cairo_render_text (void *closure,
 static svg_status_t
 _svg_cairo_render_image (void  *closure,
 			 const char *url,
+			 svg_view_box_t *view_box_template,
 			 svg_length_t *x_len,
 			 svg_length_t *y_len,
 			 svg_length_t *width_len,
@@ -1650,11 +1653,14 @@ _svg_cairo_render_image (void  *closure,
     double x, y, width, height;
     unsigned char* data;
     unsigned int data_width, data_height;
+    svg_view_box_t view_box;
+    svg_transform_t transform;
     
     status = svg_get_bgra_image (url, &data, &data_width, &data_height);
     if (status)
 	return status;
 
+    
     cairo_save (svg_cairo->cr);
     
     _svg_cairo_length_to_pixel (svg_cairo, x_len, &x);
@@ -1662,10 +1668,16 @@ _svg_cairo_render_image (void  *closure,
     _svg_cairo_length_to_pixel (svg_cairo, width_len, &width);
     _svg_cairo_length_to_pixel (svg_cairo, height_len, &height);
     
+    view_box = *view_box_template;
+    svg_complete_image_viewbox (&view_box, data_width, data_height);
+    status = svg_get_viewbox_transform (&view_box, width, height, &transform);
+    if (status)
+	return status;
+    
     surface = cairo_image_surface_create_for_data ((unsigned char *)data, CAIRO_FORMAT_ARGB32,
 	    data_width, data_height, data_width *4);
     cairo_translate (svg_cairo->cr, x, y);
-    cairo_scale (svg_cairo->cr, width / data_width, height / data_height);
+    cairo_transform (svg_cairo->cr, (cairo_matrix_t*)&transform);
     
     cairo_set_source_surface (svg_cairo->cr, surface, 0, 0);
     if (svg_cairo->state->opacity != 1.0)
@@ -1687,6 +1699,7 @@ _svg_cairo_render_image_buffer (void		*closure,
 			 	const char	*media_type,
 				const char	*buffer,
 				size_t		buffer_size,
+				svg_view_box_t *view_box_template,
 				svg_length_t 	*x_len,
 				svg_length_t 	*y_len,
 				svg_length_t 	*width_len,
@@ -1698,6 +1711,8 @@ _svg_cairo_render_image_buffer (void		*closure,
     double x, y, width, height;
     unsigned char* data;
     unsigned int data_width, data_height;
+    svg_view_box_t view_box;
+    svg_transform_t transform;
     
     status = svg_get_bgra_image_from_buffer (media_type, 
     					     buffer, buffer_size, 
@@ -1706,6 +1721,7 @@ _svg_cairo_render_image_buffer (void		*closure,
     if (status)
 	return status;
 
+    
     cairo_save (svg_cairo->cr);
     
     _svg_cairo_length_to_pixel (svg_cairo, x_len, &x);
@@ -1713,10 +1729,16 @@ _svg_cairo_render_image_buffer (void		*closure,
     _svg_cairo_length_to_pixel (svg_cairo, width_len, &width);
     _svg_cairo_length_to_pixel (svg_cairo, height_len, &height);
     
+    view_box = *view_box_template;
+    svg_complete_image_viewbox (&view_box, data_width, data_height);
+    status = svg_get_viewbox_transform (&view_box, width, height, &transform);
+    if (status)
+	return status;
+    
     surface = cairo_image_surface_create_for_data ((unsigned char *)data, CAIRO_FORMAT_ARGB32,
 	    data_width, data_height, data_width *4);
     cairo_translate (svg_cairo->cr, x, y);
-    cairo_scale (svg_cairo->cr, width / data_width, height / data_height);
+    cairo_transform (svg_cairo->cr, (cairo_matrix_t*)&transform);
     
     cairo_set_source_surface (svg_cairo->cr, surface, 0, 0);
     if (svg_cairo->state->opacity != 1.0)
