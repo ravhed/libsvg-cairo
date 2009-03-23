@@ -81,8 +81,10 @@ typedef struct svg_cairo_state {
 
     double opacity;
 
-    unsigned int viewport_width;
-    unsigned int viewport_height;
+    double viewport_width;
+    double viewport_height;
+    double view_box_width;
+    double view_box_height;
 
     int bbox;
 

@@ -521,10 +521,10 @@ _svg_cairo_set_viewport (void *closure,
 
     cairo_translate (svg_cairo->cr, vx, vy);
 
-    /* TODO : change svg_cairo->state->viewport_width to type double
-       if that accuracy is needed. */
-    svg_cairo->state->viewport_width  = (unsigned int)vwidth;
-    svg_cairo->state->viewport_height = (unsigned int)vheight;
+    svg_cairo->state->viewport_width  = vwidth;
+    svg_cairo->state->viewport_height = vheight;
+    svg_cairo->state->view_box_width  = vwidth;
+    svg_cairo->state->view_box_height = vheight;
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));    
 }
@@ -1851,6 +1851,8 @@ _svg_cairo_push_state (svg_cairo_t     *svg_cairo,
 	svg_cairo->state = _svg_cairo_state_push (svg_cairo->state);
 	svg_cairo->state->viewport_width = svg_cairo->viewport_width;
 	svg_cairo->state->viewport_height = svg_cairo->viewport_height;
+	svg_cairo->state->view_box_width = svg_cairo->viewport_width;
+	svg_cairo->state->view_box_height = svg_cairo->viewport_height;
     }
     else
     {
@@ -1940,15 +1942,15 @@ _svg_cairo_length_to_pixel (svg_cairo_t * svg_cairo, svg_length_t *length, doubl
 	    width = 1.0;
 	    height = 1.0;
 	} else {
-	    width = svg_cairo->state->viewport_width;
-	    height = svg_cairo->state->viewport_height;
+	    width = svg_cairo->state->view_box_width;
+	    height = svg_cairo->state->view_box_height;
 	}
 	if (length->orientation == SVG_LENGTH_ORIENTATION_HORIZONTAL)
 	    *pixel = (length->value / 100.0) * width;
 	else if (length->orientation == SVG_LENGTH_ORIENTATION_VERTICAL)
 	    *pixel = (length->value / 100.0) * height;
 	else
-	    *pixel = (length->value / 100.0) * sqrt(pow(width, 2) + pow(height, 2)) * sqrt(2);
+	    *pixel = (length->value / 100.0) * sqrt(pow(width, 2) + pow(height, 2)) / sqrt(2);
 	break;
     default:
 	*pixel = length->value;
@@ -1983,12 +1985,15 @@ _svg_cairo_apply_view_box (void *closure,
     _svg_cairo_length_to_pixel (svg_cairo, width, &phys_width);
     _svg_cairo_length_to_pixel (svg_cairo, height, &phys_height);
 
+    svg_cairo->state->view_box_width = view_box->box.width;
+    svg_cairo->state->view_box_height = view_box->box.height;
+
     status = svg_get_viewbox_transform (view_box, phys_width, phys_height, &transform);
     if (status)
 	return status;
     
     cairo_transform (svg_cairo->cr, (cairo_matrix_t*)&transform);
-
+    
     return SVG_STATUS_SUCCESS;
 }
 

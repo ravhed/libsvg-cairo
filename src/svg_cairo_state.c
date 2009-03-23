@@ -99,6 +99,8 @@ _svg_cairo_state_init_copy (svg_cairo_state_t *state, const svg_cairo_state_t *o
 
     state->viewport_width = other->viewport_width;
     state->viewport_height = other->viewport_height;
+    state->view_box_width = other->view_box_width;
+    state->view_box_height = other->view_box_height;
 
     if (other->dash) {
 	state->dash = malloc (state->num_dashes * sizeof(double));
