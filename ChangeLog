@@ -1,3 +1,59 @@
+2009-03-23 14:42  philipn
+
+	* src/svg_cairo.c: add explict cast to avoid msvc warning;
+
+2009-03-23 12:16  philipn
+
+	* src/: svg-cairo-internal.h, svg_cairo.c, svg_cairo_state.c: fix
+	  percentage lengths which are relative to the view box
+	  width/height and not viewport width/height; fix formula for
+	  percentage length with 'other' orientation;
+
+2009-03-21 12:51  philipn
+
+	* src/svg_cairo.c: handling new image view box information provided
+	  by libsvg; replaced simple image width/height scaling with proper
+	  view box scaling and translation;
+
+2009-03-20 15:10  philipn
+
+	* src/svg_cairo.c: implement new circle render api callback
+
+2009-03-18 21:20  philipn
+
+	* src/svg_cairo.c: view_box parameter changed to pointer in libsvg
+
+2009-03-17 22:37  philipn
+
+	* src/svg_cairo.c: changes to match change to transform type from
+	  libsvg
+
+2009-03-13 15:04  philipn
+
+	* src/svg_cairo.c: implemented new callback function for buffered
+	  (embedded) images
+
+2009-03-10 11:47  philipn
+
+	* src/svg_cairo.c: using libsvg utility function to get the
+	  transform associated with the view box
+
+2009-03-08 12:47  philipn
+
+	* src/svg_cairo.c: added placeholder functions for new marker style
+	  callbacks
+
+2009-03-02 19:12  philipn
+
+	* src/svg_cairo.c: implemented new measure_font_size function;
+	  moved set_clip_path and set_mask functions following changed to
+	  libsvg; changed set_font_size to accept a double following change
+	  to libsvg;
+
+2009-02-28 13:06  philipn
+
+	* NEWS, configure.in: updates for version 0.3
+
 2009-02-27 12:18  philipn
 
 	* src/svg_cairo.c: added placeholder for new set_visibility

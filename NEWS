@@ -1,6 +1,16 @@
+Snapshot 0.4.0 (2009-03-23 Philip de Nier <philipn@users.sourceforge.net>)
+==========================================================================
+- Various changes (some as placeholders) to match changes to libsvg (v0.3-0.4)
+
+Bug fixes
+---------
+- fix percentage lengths which should be relative to the view box width or 
+height
+
+
 Snapshot 0.3.0 (2009-02-28 Philip de Nier <philipn@users.sourceforge.net>)
 ==========================================================================
-- Various changes (some as placeholders) to match changes in the libsvg v0.3
+- Various changes (some as placeholders) to match changes to libsvg (v0.2-0.3)
 
 
 Snapshot 0.2.0 (2009-02-10 Philip de Nier <philipn@users.sourceforge.net>)
