@@ -571,8 +571,8 @@ _svg_cairo_begin_group (void *closure, double opacity, const char *id, const cha
     if (opacity != 1.0) {
 	child_surface = cairo_surface_create_similar (cairo_get_target (svg_cairo->cr),
 						      CAIRO_CONTENT_COLOR_ALPHA,
-						      svg_cairo->state->viewport_width,
-						      svg_cairo->state->viewport_height);
+						      (unsigned int)svg_cairo->state->viewport_width,
+						      (unsigned int)svg_cairo->state->viewport_height);
 	svg_cairo->state->child_surface = child_surface;
     }
 
