@@ -195,12 +195,15 @@ _svg_cairo_set_viewport (void *closure,
 			 svg_length_t *height);
 
 static svg_status_t
+_svg_cairo_stroke_and_fill (void *closure);
+
+static svg_status_t
 _svg_cairo_render_line (void *closure,
 			svg_length_t *x1_len, svg_length_t *y1_len,
 			svg_length_t *x2_len, svg_length_t *y2_len);
 
 static svg_status_t
-_svg_cairo_render_path (void *closure);
+_svg_cairo_render_path (void *closure, svg_path_t *path);
 
 static svg_status_t
 _svg_cairo_render_circle (void *closure,
@@ -281,15 +284,6 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_begin_element,
     _svg_cairo_end_element,
     _svg_cairo_end_group,
-    /* path creation */
-    {
-	_svg_cairo_move_to,
-	_svg_cairo_line_to,
-	_svg_cairo_curve_to,
-	_svg_cairo_quadratic_curve_to,
-	_svg_cairo_arc_to,
-	_svg_cairo_close_path,
-    },
     /* text positioning */
     _svg_cairo_set_text_position_x,
     _svg_cairo_set_text_position_y,
@@ -1366,37 +1360,7 @@ _svg_cairo_transform (void *closure, const svg_transform_t *transform)
 }
 
 static svg_status_t
-_svg_cairo_render_line (void *closure,
-		   svg_length_t *x1_len, svg_length_t *y1_len,
-		   svg_length_t *x2_len, svg_length_t *y2_len)
-{
-    svg_cairo_t *svg_cairo = closure;
-    svg_status_t status;
-    double x1, y1, x2, y2;
-
-    _svg_cairo_length_to_pixel (svg_cairo, x1_len, &x1);
-    _svg_cairo_length_to_pixel (svg_cairo, y1_len, &y1);
-    _svg_cairo_length_to_pixel (svg_cairo, x2_len, &x2);
-    _svg_cairo_length_to_pixel (svg_cairo, y2_len, &y2);
-
-    status = _svg_cairo_move_to (svg_cairo, x1, y1);
-    if (status)
-	return status;
-
-    status = _svg_cairo_line_to (svg_cairo, x2, y2);
-    if (status)
-	return status;
-
-    status = _svg_cairo_render_path (svg_cairo);
-    if (status)
-	return status;
-
-    return SVG_STATUS_SUCCESS;
-
-}
-
-static svg_status_t
-_svg_cairo_render_path (void *closure)
+_svg_cairo_stroke_and_fill (void *closure)
 {
     svg_cairo_t *svg_cairo = closure;
     svg_paint_t *fill_paint, *stroke_paint;
@@ -1431,6 +1395,102 @@ _svg_cairo_render_path (void *closure)
 }
 
 static svg_status_t
+_svg_cairo_render_line (void *closure,
+		   svg_length_t *x1_len, svg_length_t *y1_len,
+		   svg_length_t *x2_len, svg_length_t *y2_len)
+{
+    svg_cairo_t *svg_cairo = closure;
+    svg_status_t status;
+    double x1, y1, x2, y2;
+
+    _svg_cairo_length_to_pixel (svg_cairo, x1_len, &x1);
+    _svg_cairo_length_to_pixel (svg_cairo, y1_len, &y1);
+    _svg_cairo_length_to_pixel (svg_cairo, x2_len, &x2);
+    _svg_cairo_length_to_pixel (svg_cairo, y2_len, &y2);
+
+    status = _svg_cairo_move_to (svg_cairo, x1, y1);
+    if (status)
+	return status;
+
+    status = _svg_cairo_line_to (svg_cairo, x2, y2);
+    if (status)
+	return status;
+
+    status = _svg_cairo_stroke_and_fill (svg_cairo);
+    if (status)
+	return status;
+
+    return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
+}
+
+static svg_status_t
+_svg_cairo_render_path (void *closure, svg_path_t *path)
+{
+    svg_cairo_t *svg_cairo = closure;
+    svg_path_t *element;
+    svg_status_t status = SVG_STATUS_SUCCESS;
+    
+    if (path == NULL)
+	return SVG_STATUS_SUCCESS;
+    
+    element = path;
+    while (element != NULL) {
+	
+	switch (element->op) {
+	    case SVG_PATH_OP_MOVE_TO:
+	    	status = _svg_cairo_move_to (closure,
+			element->p.move_to.x,
+			element->p.move_to.y);
+		break;
+	    case SVG_PATH_OP_LINE_TO:
+	    	status = _svg_cairo_line_to (closure,
+			element->p.line_to.x,
+			element->p.line_to.y);
+		break;
+	    case SVG_PATH_OP_CURVE_TO:
+	    	status = _svg_cairo_curve_to (closure,
+			element->p.curve_to.x1,
+			element->p.curve_to.y1,
+			element->p.curve_to.x2,
+			element->p.curve_to.y2,
+			element->p.curve_to.x3,
+			element->p.curve_to.y3);
+		break;
+	    case SVG_PATH_OP_QUAD_CURVE_TO:
+	    	status = _svg_cairo_quadratic_curve_to (closure,
+			element->p.quad_curve_to.x1,
+			element->p.quad_curve_to.y1,
+			element->p.quad_curve_to.x2,
+			element->p.quad_curve_to.y2);
+		break;
+	    case SVG_PATH_OP_ARC_TO:
+	    	status = _svg_cairo_arc_to (closure,
+			element->p.arc_to.rx,
+			element->p.arc_to.ry,
+			element->p.arc_to.x_axis_rotation,
+			element->p.arc_to.large_arc_flag,
+			element->p.arc_to.sweep_flag,
+			element->p.arc_to.x,
+			element->p.arc_to.y);
+		break;
+	    case SVG_PATH_OP_CLOSE_PATH:
+	    	status = _svg_cairo_close_path (closure);
+		break;
+	}
+	if (status)
+	    return status;
+
+	element = element->next;
+    }
+
+    status = _svg_cairo_stroke_and_fill (svg_cairo);
+    if (status)
+	return status;
+
+    return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
+}
+
+static svg_status_t
 _svg_cairo_render_circle (void *closure,
 		      	  svg_length_t *cx_len,
 			  svg_length_t *cy_len,
@@ -1454,7 +1514,7 @@ _svg_cairo_render_circle (void *closure,
 
     cairo_set_matrix (svg_cairo->cr, &matrix);
 
-     _svg_cairo_render_path (svg_cairo);
+     _svg_cairo_stroke_and_fill (svg_cairo);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -1486,7 +1546,7 @@ _svg_cairo_render_ellipse (void *closure,
 
     cairo_set_matrix (svg_cairo->cr, &matrix);
 
-     _svg_cairo_render_path (svg_cairo);
+    _svg_cairo_stroke_and_fill (svg_cairo);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -1537,7 +1597,7 @@ _svg_cairo_render_rect (void *closure,
     }
     _svg_cairo_close_path (svg_cairo);
 
-    _svg_cairo_render_path (svg_cairo);
+    _svg_cairo_stroke_and_fill (svg_cairo);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
