@@ -759,7 +759,7 @@ _svg_cairo_set_text_chunk_width (void *closure, double width)
 static svg_status_t
 _svg_cairo_select_font (svg_cairo_t *svg_cairo)
 {
-    char *family = svg_cairo->state->font_family;
+    const char *family = svg_cairo->state->font_family;
     unsigned int font_weight = svg_cairo->state->font_weight;
     cairo_font_weight_t weight;
     svg_font_style_t font_style = svg_cairo->state->font_style;
@@ -1095,10 +1095,7 @@ _svg_cairo_set_font_family (void *closure, const char *family)
     pango_font_description_set_family (svg_cairo->state->font_description,
 				       family);
 #else
-    if (svg_cairo->state->font_family)
-	free (svg_cairo->state->font_family);
-
-    svg_cairo->state->font_family = strdup (family);
+    svg_cairo->state->font_family = family;
     svg_cairo->state->font_dirty = 1;
 #endif
 
@@ -1215,20 +1212,11 @@ _svg_cairo_set_stroke_dash_array (void *closure, double *dash, int num_dashes)
 {
     svg_cairo_t *svg_cairo = closure;
 
-    free (svg_cairo->state->dash);
-    svg_cairo->state->dash = NULL;
-
+    svg_cairo->state->dash = dash;
     svg_cairo->state->num_dashes = num_dashes;
 
-    if (svg_cairo->state->num_dashes) {
-	svg_cairo->state->dash = malloc(svg_cairo->state->num_dashes * sizeof(double));
-	if (svg_cairo->state->dash == NULL)
-	    return SVG_STATUS_NO_MEMORY;
-
-	memcpy(svg_cairo->state->dash, dash, svg_cairo->state->num_dashes * sizeof(double));
-
+    if (svg_cairo->state->num_dashes)
 	cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
-    }
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -1244,7 +1232,8 @@ _svg_cairo_set_stroke_dash_offset (void *closure, svg_length_t *offset_len)
     svg_cairo->state->dash_offset = offset;
 
     if (svg_cairo->state->num_dashes)
-	cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset); 
+	cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
+
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
 

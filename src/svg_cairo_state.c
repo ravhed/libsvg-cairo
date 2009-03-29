@@ -24,6 +24,7 @@
 
 #include "svg-cairo-internal.h"
 
+
 svg_cairo_status_t
 _svg_cairo_state_create (svg_cairo_state_t **state)
 {
@@ -51,9 +52,7 @@ _svg_cairo_state_init (svg_cairo_state_t *state)
 #if HAVE_PANGOCAIRO
     state->font_description = pango_font_description_new ();
 #else
-    state->font_family = strdup (SVG_CAIRO_FONT_FAMILY_DEFAULT);
-    if (state->font_family == NULL)
-	return SVG_CAIRO_STATUS_NO_MEMORY;
+    state->font_family = SVG_CAIRO_FONT_FAMILY_DEFAULT;
 
     state->font_size = 1.0;
     state->font_style = SVG_FONT_STYLE_NORMAL;
@@ -92,22 +91,12 @@ _svg_cairo_state_init_copy (svg_cairo_state_t *state, const svg_cairo_state_t *o
 
 #if HAVE_PANGOCAIRO
     state->font_description = pango_font_description_copy (other->font_description);
-#else
-    if (other->font_family)
-	state->font_family = strdup ((char *) other->font_family);
 #endif
 
     state->viewport_width = other->viewport_width;
     state->viewport_height = other->viewport_height;
     state->view_box_width = other->view_box_width;
     state->view_box_height = other->view_box_height;
-
-    if (other->dash) {
-	state->dash = malloc (state->num_dashes * sizeof(double));
-	if (state->dash == NULL)
-	    return SVG_CAIRO_STATUS_NO_MEMORY;
-	memcpy (state->dash, other->dash, state->num_dashes * sizeof(double));
-    }
 
     return SVG_CAIRO_STATUS_SUCCESS;
 }
@@ -130,17 +119,7 @@ _svg_cairo_state_deinit (svg_cairo_state_t *state)
 	pango_font_description_free (state->font_description);
 	state->font_description = NULL;
     }
-#else
-    if (state->font_family) {
-	free (state->font_family);
-	state->font_family = NULL;
-    }
 #endif
-
-    if (state->dash) {
-	free (state->dash);
-	state->dash = NULL;
-    }
 
     state->next = NULL;
 

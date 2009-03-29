@@ -68,14 +68,14 @@ typedef struct svg_cairo_state {
 #if HAVE_PANGOCAIRO
     PangoFontDescription *font_description;
 #else
-    char *font_family;
+    const char *font_family;
     double font_size;
     svg_font_style_t font_style;
     unsigned int font_weight;
     int font_dirty;
 #endif
 
-    double *dash;
+    const double *dash;
     int num_dashes;
     double dash_offset;
 
