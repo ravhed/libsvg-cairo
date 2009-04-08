@@ -204,8 +204,9 @@ _svg_cairo_render_text (void 	      *closure,
 			const char    *utf8);
 
 static svg_status_t
-_svg_cairo_render_image (void		*closure,
-			 const char 	*url,
+_svg_cairo_render_image (void			*closure,
+			 const char 		*url,
+			 int 			index,
 			 const svg_view_box_t	*view_box_template,
 			 const svg_length_t 	*x,
 			 const svg_length_t 	*y,
@@ -1596,6 +1597,7 @@ _svg_cairo_render_text (void *closure,
 static svg_status_t
 _svg_cairo_render_image (void  *closure,
 			 const char *uri,
+			 int index,
 			 const svg_view_box_t *view_box_template,
 			 const svg_length_t *x_len,
 			 const svg_length_t *y_len,
