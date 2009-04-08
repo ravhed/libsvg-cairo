@@ -97,12 +97,6 @@ _svg_cairo_text_advance_x (void		*closure,
 			   double	*advance);
 
 static svg_status_t
-_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path);
-
-static svg_status_t 
-_svg_cairo_set_clip_rule (void *closure, svg_clip_rule_t clip_rule);
-
-static svg_status_t
 _svg_cairo_set_color (void *closure, const svg_color_t *color);
 
 static svg_status_t
@@ -125,18 +119,6 @@ _svg_cairo_set_font_style (void *closure, svg_font_style_t font_style);
 
 static svg_status_t
 _svg_cairo_set_font_weight (void *closure, unsigned int weight);
-
-static svg_status_t
-_svg_cairo_set_marker_end (void *closure, const svg_marker_t *marker);
-
-static svg_status_t
-_svg_cairo_set_marker_mid (void *closure, const svg_marker_t *marker);
-
-static svg_status_t
-_svg_cairo_set_marker_start (void *closure, const svg_marker_t *marker);
-
-static svg_status_t 
-_svg_cairo_set_mask (void *closure, const svg_mask_t *mask);
 
 static svg_status_t
 _svg_cairo_set_opacity (void *closure, double opacity);
@@ -168,18 +150,8 @@ _svg_cairo_set_stroke_width (void *closure, const svg_length_t *width);
 static svg_status_t
 _svg_cairo_set_text_anchor (void *closure, svg_text_anchor_t text_anchor);
 
-static svg_status_t 
-_svg_cairo_set_visibility (void *closure, int visible);
-
 static svg_status_t
 _svg_cairo_transform (void *closure, const svg_transform_t *transform);
-
-static svg_status_t 
-_svg_cairo_viewport_clipping_path (void *closure, 
-    				   const svg_length_t *top,
-				   const svg_length_t *right,
-				   const svg_length_t *bottom,
-				   const svg_length_t *left);
 
 static svg_status_t
 _svg_cairo_apply_view_box (void *closure,
@@ -273,15 +245,15 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_begin_element,
     _svg_cairo_end_element,
     _svg_cairo_end_group,
-    /* text positioning */
-    _svg_cairo_set_text_position_x,
-    _svg_cairo_set_text_position_y,
-    _svg_cairo_adjust_text_position,
-    _svg_cairo_set_text_chunk_width,
-    _svg_cairo_text_advance_x,
+    /* transform */
+    _svg_cairo_set_viewport,
+    _svg_cairo_apply_view_box,
+    NULL, /* viewport_clipping_path */
+    _svg_cairo_transform,
+    NULL, /* end_transform */
     /* style */
-    _svg_cairo_set_clip_path,
-    _svg_cairo_set_clip_rule,
+    NULL, /* set_clip_path */
+    NULL, /* set_clip_rule */
     _svg_cairo_set_color,
     _svg_cairo_set_fill_opacity,
     _svg_cairo_set_fill_paint,
@@ -290,10 +262,10 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_font_size,
     _svg_cairo_set_font_style,
     _svg_cairo_set_font_weight,
-    _svg_cairo_set_marker_end,
-    _svg_cairo_set_marker_mid,
-    _svg_cairo_set_marker_start,
-    _svg_cairo_set_mask,
+    NULL, /* set_marker_end */
+    NULL, /* set_marker_mid */
+    NULL, /* set_marker_start */
+    NULL, /* set_mask */
     _svg_cairo_set_opacity,
     _svg_cairo_set_stroke_dash_array,
     _svg_cairo_set_stroke_dash_offset,
@@ -304,12 +276,14 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_stroke_paint,
     _svg_cairo_set_stroke_width,
     _svg_cairo_set_text_anchor,
-    _svg_cairo_set_visibility,
-    /* transform */
-    _svg_cairo_transform,
-    _svg_cairo_viewport_clipping_path,
-    _svg_cairo_apply_view_box,
-    _svg_cairo_set_viewport,
+    NULL, /* set_visibility */
+    NULL, /* end_style */
+    /* text positioning */
+    _svg_cairo_text_advance_x,
+    _svg_cairo_set_text_position_x,
+    _svg_cairo_set_text_position_y,
+    _svg_cairo_adjust_text_position,
+    _svg_cairo_set_text_chunk_width,
     /* drawing */
     _svg_cairo_render_line,
     _svg_cairo_render_path,
@@ -811,22 +785,6 @@ _svg_cairo_text_advance_x (void		*closure,
 }
 
 static svg_status_t
-_svg_cairo_set_clip_path (void *closure, const svg_clip_path_t *clip_path)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t 
-_svg_cairo_set_clip_rule (void *closure, svg_clip_rule_t clip_rule)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t
 _svg_cairo_set_color (void *closure, const svg_color_t *color)
 {
     svg_cairo_t *svg_cairo = closure;
@@ -1154,38 +1112,6 @@ _svg_cairo_set_font_weight (void *closure, unsigned int font_weight)
 }
 
 static svg_status_t
-_svg_cairo_set_marker_end (void *closure, const svg_marker_t *marker)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t
-_svg_cairo_set_marker_mid (void *closure, const svg_marker_t *marker)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t
-_svg_cairo_set_marker_start (void *closure, const svg_marker_t *marker)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t
-_svg_cairo_set_mask (void *closure, const svg_mask_t *mask)
-{
-    /* XXX: not implemented */
-    
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t
 _svg_cairo_set_opacity (void *closure, double opacity)
 {
     svg_cairo_t *svg_cairo = closure;
@@ -1315,14 +1241,6 @@ _svg_cairo_set_text_anchor (void *closure, svg_text_anchor_t text_anchor)
 
     svg_cairo->state->text_anchor = text_anchor;
 
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t 
-_svg_cairo_set_visibility (void *closure, int visible)
-{
-    /* XXX: not yet implemented */
-    
     return SVG_STATUS_SUCCESS;
 }
 
@@ -1931,18 +1849,6 @@ _svg_cairo_length_to_pixel (svg_cairo_t * svg_cairo, const svg_length_t *length,
 	*pixel = length->value;
     }
 
-    return SVG_STATUS_SUCCESS;
-}
-
-static svg_status_t 
-_svg_cairo_viewport_clipping_path (void *closure, 
-    				   const svg_length_t *top,
-				   const svg_length_t *right,
-				   const svg_length_t *bottom,
-				   const svg_length_t *left)
-{
-    /* XXX: not implemented */
-    
     return SVG_STATUS_SUCCESS;
 }
 
