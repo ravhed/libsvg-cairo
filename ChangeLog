@@ -1,3 +1,52 @@
+2009-04-08 16:02  philipn
+
+	* src/svg_cairo.c: libsvg added the index parameter (ignore by
+	  libsvg-cairo) to the render_image callback function;
+
+2009-04-08 11:59  philipn
+
+	* src/svg_cairo.c: mods for change in order of functions in render
+	  engine structure; remove functions not implemented and set
+	  pointer to NULL in callback struct;
+
+2009-04-01 18:06  philipn
+
+	* src/svg_cairo.c: libsvg removed embedded image render callback;
+	  external and embedded images are rendered using the same callback
+	  and are converted to bgra using the same libsvg utility function;
+
+2009-03-30 13:18  philipn
+
+	* src/svg_cairo.c: using libsvg utility function to convert from
+	  elliptical arc endpoint parameterization to center
+	  parameterization;
+
+2009-03-29 13:22  philipn
+
+	* src/svg_cairo.c: libsvg added const qualifiers to callback
+	  function parameters
+
+2009-03-29 11:29  philipn
+
+	* src/: svg-cairo-internal.h, svg_cairo.c, svg_cairo_state.c: font
+	  family and dash array pointers are guaranteed to remain valid
+	  during rendering and therefore there is no need to keep duplicate
+	  copies;
+
+2009-03-27 16:06  philipn
+
+	* src/svg_cairo.c: changed path creation given the change to libsvg
+	  where a path data structure is passed to render_path;
+
+2009-03-25 21:19  philipn
+
+	* configure.in: use m4_define() to avoid errors like: error:
+	  possibly undefined macro: LT_CURRENT;
+
+2009-03-23 16:37  philipn
+
+	* NEWS, configure.in: update for snapshot 0.4.0
+
 2009-03-23 14:42  philipn
 
 	* src/svg_cairo.c: add explict cast to avoid msvc warning;

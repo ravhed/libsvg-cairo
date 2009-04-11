@@ -1,3 +1,16 @@
+Snapshot 0.5.0 (2009-04-11 Philip de Nier <philipn@users.sourceforge.net>)
+==========================================================================
+- Various changes (some as placeholders) to match changes to libsvg (v0.4-0.5)
+- storing a pointer to the font family and dash array rather than duplicating
+because they are guaranteed to remain valid during rendering
+- using libsvg utility to convert elliptical arc end point parameterization to
+center point parameterization
+- setting unimplemented callback pointers to null
+
+Bug fixes
+---------
+
+
 Snapshot 0.4.0 (2009-03-23 Philip de Nier <philipn@users.sourceforge.net>)
 ==========================================================================
 - Various changes (some as placeholders) to match changes to libsvg (v0.3-0.4)
