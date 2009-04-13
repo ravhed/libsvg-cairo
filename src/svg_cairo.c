@@ -857,14 +857,16 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
     break;
     case SVG_GRADIENT_RADIAL:
     {
-	double cx, cy, r, fx, fy;
+	double cx, cy, r, fx_in, fy_in, fx, fy;
       
 	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.cx, &cx);
 	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.cy, &cy);
 	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.r, &r);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fx, &fx);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fy, &fy);
+	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fx, &fx_in);
+	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fy, &fy_in);
 
+	svg_legalize_radial_gradient_focal_point (cx, cy, r, fx_in, fy_in, &fx, &fy);
+	
 	pattern = cairo_pattern_create_radial (fx, fy, 0.0, cx, cy, r);
     } break;
     }
