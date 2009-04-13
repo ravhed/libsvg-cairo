@@ -151,6 +151,9 @@ static svg_status_t
 _svg_cairo_set_text_anchor (void *closure, svg_text_anchor_t text_anchor);
 
 static svg_status_t
+_svg_cairo_end_style (void *closure);
+
+static svg_status_t
 _svg_cairo_transform (void *closure, const svg_transform_t *transform);
 
 static svg_status_t
@@ -278,7 +281,7 @@ static svg_render_engine_t SVG_CAIRO_RENDER_ENGINE = {
     _svg_cairo_set_stroke_width,
     _svg_cairo_set_text_anchor,
     NULL, /* set_visibility */
-    NULL, /* end_style */
+    _svg_cairo_end_style,
     /* text positioning */
     _svg_cairo_text_advance_x,
     _svg_cairo_set_text_position_x,
@@ -314,7 +317,8 @@ svg_cairo_create (svg_cairo_t **svg_cairo)
      * handling should be reworked. */
     (*svg_cairo)->viewport_width = 450;
     (*svg_cairo)->viewport_height = 450;
- 
+
+
     status = svg_create (&(*svg_cairo)->svg);
     if (status)
 	return status;
@@ -482,6 +486,9 @@ _svg_cairo_set_viewport (void *closure,
     svg_cairo->state->viewport_height = vheight;
     svg_cairo->state->view_box_width  = vwidth;
     svg_cairo->state->view_box_height = vheight;
+    
+    svg_cairo->state->length_context.viewport_width = vwidth;
+    svg_cairo->state->length_context.viewport_height = vheight;
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));    
 }
@@ -491,6 +498,9 @@ svg_cairo_set_viewport_dimension (svg_cairo_t *svg_cairo, unsigned int width, un
 {
     svg_cairo->viewport_width = width;
     svg_cairo->viewport_height = height;
+
+    svg_cairo->state->length_context.viewport_width = width;
+    svg_cairo->state->length_context.viewport_height = height;
 
     return SVG_CAIRO_STATUS_SUCCESS;
 }
@@ -838,7 +848,7 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
 
 	cairo_matrix_translate (&matrix, x1, y1);
 	cairo_matrix_scale (&matrix, x2 - x1, y2 - y1);
-	svg_cairo->state->bbox = 1;
+	svg_cairo->state->length_context.bbox_user_units = 1;
     } break;
     }
     
@@ -901,7 +911,7 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
     
     cairo_set_source (svg_cairo->cr, pattern);
     cairo_pattern_destroy (pattern);
-    svg_cairo->state->bbox = 0;
+    svg_cairo->state->length_context.bbox_user_units = 0;
     
     return SVG_STATUS_SUCCESS;
 }
@@ -1243,6 +1253,22 @@ _svg_cairo_set_text_anchor (void *closure, svg_text_anchor_t text_anchor)
     svg_cairo_t *svg_cairo = closure;
 
     svg_cairo->state->text_anchor = text_anchor;
+
+    return SVG_STATUS_SUCCESS;
+}
+
+static svg_status_t
+_svg_cairo_end_style (void *closure)
+{
+    svg_cairo_t *svg_cairo = closure;
+
+#if HAVE_PANGOCAIRO
+    svg_cairo->state->font_size = ((double) pango_font_description_get_size (svg_cairo->state->font_description) 
+    	/ PANGO_SCALE);
+#endif
+
+    svg_cairo->state->length_context.font_size = svg_cairo->state->font_size;
+    svg_cairo->state->length_context.x_height = svg_cairo->state->font_size / 2.0; /* XXX: does pango have this value? */
 
     return SVG_STATUS_SUCCESS;
 }
@@ -1750,6 +1776,8 @@ _svg_cairo_push_state (svg_cairo_t     *svg_cairo,
 	svg_cairo->state->viewport_height = svg_cairo->viewport_height;
 	svg_cairo->state->view_box_width = svg_cairo->viewport_width;
 	svg_cairo->state->view_box_height = svg_cairo->viewport_height;
+	svg_cairo->state->length_context.viewport_width = svg_cairo->viewport_width;
+	svg_cairo->state->length_context.viewport_height = svg_cairo->viewport_height;
     }
     else
     {
@@ -1788,70 +1816,10 @@ _svg_cairo_pop_state (svg_cairo_t *svg_cairo)
     return SVG_STATUS_SUCCESS;
 }
 
-/* svg_get_dpi queries the current DPI but libsvg-cairo has no mechanism
-   for setting this DPI.  Thus we have to assume that libsvg gets it right;
-   there's no way for users to control it. */
-#define	DPI(svg) svg_get_dpi(svg)
-
-static double
-_svg_cairo_text_size (svg_cairo_t *svg_cairo)
-{
-#if HAVE_PANGOCAIRO
-    return ((double) pango_font_description_get_size (svg_cairo->state->font_description)
-	    / PANGO_SCALE);
-#else
-    return svg_cairo->state->font_size;
-#endif
-}
-
 static svg_status_t
 _svg_cairo_length_to_pixel (svg_cairo_t * svg_cairo, const svg_length_t *length, double *pixel)
 {
-    double width, height;
-
-    switch (length->unit) {
-    case SVG_LENGTH_UNIT_PX:
-	*pixel = length->value;
-	break;
-    case SVG_LENGTH_UNIT_CM:
-        *pixel = (length->value / 2.54) * DPI(svg_cairo->svg);
-	break;
-    case SVG_LENGTH_UNIT_MM:
-	*pixel = (length->value / 25.4) * DPI(svg_cairo->svg);
-	break;
-    case SVG_LENGTH_UNIT_IN:
-	*pixel = length->value * DPI(svg_cairo->svg);
-	break;
-    case SVG_LENGTH_UNIT_PT:
-	*pixel = (length->value / 72.0) * DPI(svg_cairo->svg);
-	break;
-    case SVG_LENGTH_UNIT_PC:
-	*pixel = (length->value / 6.0) * DPI(svg_cairo->svg);
-	break;
-    case SVG_LENGTH_UNIT_EM:
-	*pixel = length->value * _svg_cairo_text_size (svg_cairo);
-	break;
-    case SVG_LENGTH_UNIT_EX:
-	*pixel = length->value * _svg_cairo_text_size (svg_cairo) / 2.0;
-	break;
-    case SVG_LENGTH_UNIT_PCT:
-	if (svg_cairo->state->bbox) {
-	    width = 1.0;
-	    height = 1.0;
-	} else {
-	    width = svg_cairo->state->view_box_width;
-	    height = svg_cairo->state->view_box_height;
-	}
-	if (length->orientation == SVG_LENGTH_ORIENTATION_HORIZONTAL)
-	    *pixel = (length->value / 100.0) * width;
-	else if (length->orientation == SVG_LENGTH_ORIENTATION_VERTICAL)
-	    *pixel = (length->value / 100.0) * height;
-	else
-	    *pixel = (length->value / 100.0) * sqrt(pow(width, 2) + pow(height, 2)) / sqrt(2);
-	break;
-    default:
-	*pixel = length->value;
-    }
+    *pixel = svg_convert_length_to_user_units (&svg_cairo->state->length_context, length);
 
     return SVG_STATUS_SUCCESS;
 }
@@ -1872,6 +1840,9 @@ _svg_cairo_apply_view_box (void *closure,
 
     svg_cairo->state->view_box_width = view_box->box.width;
     svg_cairo->state->view_box_height = view_box->box.height;
+    
+    svg_cairo->state->length_context.viewport_width = view_box->box.width;
+    svg_cairo->state->length_context.viewport_height = view_box->box.height;
 
     status = svg_get_viewbox_transform (view_box, phys_width, phys_height, &transform);
     if (status)

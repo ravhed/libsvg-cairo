@@ -58,6 +58,8 @@ typedef struct svg_cairo_state {
     cairo_surface_t *child_surface;
     cairo_t *saved_cr;
 
+    svg_length_context_t length_context;
+    
     svg_color_t color;
 
     svg_paint_t fill_paint;
@@ -69,11 +71,11 @@ typedef struct svg_cairo_state {
     PangoFontDescription *font_description;
 #else
     const char *font_family;
-    double font_size;
     svg_font_style_t font_style;
     unsigned int font_weight;
     int font_dirty;
 #endif
+    double font_size;
 
     const double *dash;
     int num_dashes;
@@ -85,8 +87,6 @@ typedef struct svg_cairo_state {
     double viewport_height;
     double view_box_width;
     double view_box_height;
-
-    int bbox;
 
     svg_text_anchor_t text_anchor;
 

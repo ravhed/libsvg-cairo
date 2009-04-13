@@ -40,37 +40,33 @@ _svg_cairo_state_create (svg_cairo_state_t **state)
 svg_cairo_status_t
 _svg_cairo_state_init (svg_cairo_state_t *state)
 {
+    memset (state, 0, sizeof(*state));
+    
     /* trust libsvg to set all of these to reasonable defaults:
     state->fill_paint;
     state->stroke_paint;
     state->fill_opacity;
     state->stroke_opacity;
     */
-    state->child_surface = NULL;
-    state->saved_cr = NULL;
 
 #if HAVE_PANGOCAIRO
     state->font_description = pango_font_description_new ();
 #else
     state->font_family = SVG_CAIRO_FONT_FAMILY_DEFAULT;
 
-    state->font_size = 1.0;
     state->font_style = SVG_FONT_STYLE_NORMAL;
     state->font_weight = 400;
     state->font_dirty = 1;
 #endif
-
-    state->dash = NULL;
-    state->num_dashes = 0;
-    state->dash_offset = 0;
+    state->font_size = 1.0;
 
     state->opacity = 1.0;
 
-    state->bbox = 0;
-
     state->text_anchor = SVG_TEXT_ANCHOR_START;
-
-    state->next = NULL;
+    
+    state->length_context.dpi = 90;
+    state->length_context.font_size = 1.0;
+    state->length_context.x_height = 1.0;
 
     return SVG_CAIRO_STATUS_SUCCESS;
 }
@@ -92,11 +88,6 @@ _svg_cairo_state_init_copy (svg_cairo_state_t *state, const svg_cairo_state_t *o
 #if HAVE_PANGOCAIRO
     state->font_description = pango_font_description_copy (other->font_description);
 #endif
-
-    state->viewport_width = other->viewport_width;
-    state->viewport_height = other->viewport_height;
-    state->view_box_width = other->view_box_width;
-    state->view_box_height = other->view_box_height;
 
     return SVG_CAIRO_STATUS_SUCCESS;
 }
