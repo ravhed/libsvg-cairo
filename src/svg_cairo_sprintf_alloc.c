@@ -51,25 +51,25 @@ _svg_cairo_vsprintf_alloc (char **str, const char *fmt, va_list ap)
     int n, size = 100;
 
     if ((*str = malloc (size)) == NULL)
-	return -1;
+        return -1;
     while (1) {
-	/* Try to print in the allocated space. */
-	n = vsnprintf (*str, size, fmt, ap);
-	/* If that worked, return the size. */
-	if (n > -1 && n < size)
-	    return n;
-	/* Else try again with more space. */
-	if (n > -1)    /* glibc 2.1 */
-	    size = n+1; /* precisely what is needed */
-	else           /* glibc 2.0 */
-	    size *= 2;  /* twice the old size */
-	new_str = realloc(*str, size);
-	if (new_str == NULL) {
-	    free(*str);
-	    *str = NULL;
-	    return -1;
-	}
-	*str = new_str;
+        /* Try to print in the allocated space. */
+        n = vsnprintf (*str, size, fmt, ap);
+        /* If that worked, return the size. */
+        if (n > -1 && n < size)
+            return n;
+        /* Else try again with more space. */
+        if (n > -1)    /* glibc 2.1 */
+            size = n+1; /* precisely what is needed */
+        else           /* glibc 2.0 */
+            size *= 2;  /* twice the old size */
+        new_str = realloc(*str, size);
+        if (new_str == NULL) {
+            free(*str);
+            *str = NULL;
+            return -1;
+        }
+        *str = new_str;
     }
 }
 

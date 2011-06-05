@@ -30,7 +30,7 @@ _svg_cairo_state_create (svg_cairo_state_t **state)
 {
     *state = malloc (sizeof (svg_cairo_state_t));
     if (*state == NULL)
-	return SVG_CAIRO_STATUS_NO_MEMORY;
+        return SVG_CAIRO_STATUS_NO_MEMORY;
 
     _svg_cairo_state_init (*state);
 
@@ -77,7 +77,7 @@ _svg_cairo_state_init_copy (svg_cairo_state_t *state, const svg_cairo_state_t *o
     _svg_cairo_state_deinit (state);
 
     if (other == NULL)
-	return _svg_cairo_state_init (state);
+        return _svg_cairo_state_init (state);
 
     *state = *other;
 
@@ -96,19 +96,19 @@ svg_cairo_status_t
 _svg_cairo_state_deinit (svg_cairo_state_t *state)
 {
     if (state->child_surface) {
-	cairo_surface_destroy(state->child_surface);
-	state->child_surface = NULL;
+        cairo_surface_destroy(state->child_surface);
+        state->child_surface = NULL;
     }
 
     if (state->saved_cr) {
-	cairo_destroy(state->saved_cr);
-	state->saved_cr = NULL;
+        cairo_destroy(state->saved_cr);
+        state->saved_cr = NULL;
     }
 
 #if HAVE_PANGOCAIRO
     if (state->font_description) {
-	pango_font_description_free (state->font_description);
-	state->font_description = NULL;
+        pango_font_description_free (state->font_description);
+        state->font_description = NULL;
     }
 #endif
 
@@ -134,7 +134,7 @@ _svg_cairo_state_push (svg_cairo_state_t *state)
 
     _svg_cairo_state_create (&new);
     if (new == NULL)
-	return NULL;
+        return NULL;
 
     _svg_cairo_state_init_copy (new, state);
 
@@ -149,7 +149,7 @@ _svg_cairo_state_pop (svg_cairo_state_t *state)
     svg_cairo_state_t *next;
 
     if (state == NULL)
-	return NULL;
+        return NULL;
 
     next = state->next;
 

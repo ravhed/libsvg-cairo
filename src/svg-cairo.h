@@ -80,16 +80,16 @@ svg_cairo_status_t
 svg_cairo_render_2 (svg_cairo_t *svg_cairo, svg_t *svg, cairo_t *xrs);
 
 svg_cairo_status_t
-svg_cairo_element_render (svg_cairo_t 	*svg_cairo,
-			  svg_t		*svg,
-			  svg_element_t	*element,
-			  cairo_t 	*xrs);
+svg_cairo_element_render (svg_cairo_t   *svg_cairo,
+                          svg_t         *svg,
+                          svg_element_t *element,
+                          cairo_t       *xrs);
 
 svg_cairo_status_t
-svg_cairo_element_ref_render (svg_cairo_t 	*svg_cairo,
-			      svg_t		*svg,
-			      svg_element_ref_t	*element_ref,
-			      cairo_t 		*xrs);
+svg_cairo_element_ref_render (svg_cairo_t       *svg_cairo,
+                              svg_t             *svg,
+                              svg_element_ref_t *element_ref,
+                              cairo_t           *xrs);
 
 /* XXX philipn: generalize to preparing the engine before svg_cairo_get_render_engine */
 svg_cairo_status_t
@@ -101,8 +101,8 @@ svg_cairo_set_viewport_dimension (svg_cairo_t *svg_cairo, unsigned int width, un
 
 void
 svg_cairo_get_size (svg_cairo_t  *svg_cairo,
-		    unsigned int *width,
-		    unsigned int *height);
+                    unsigned int *width,
+                    unsigned int *height);
 
 void
 svg_cairo_get_render_engine (svg_cairo_t *svg_cairo, svg_render_engine_t **engine, void **closure);

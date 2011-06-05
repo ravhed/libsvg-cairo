@@ -50,31 +50,31 @@ _svg_cairo_line_to (void *closure, double x, double y);
 
 static svg_status_t
 _svg_cairo_curve_to (void *closure,
-		     double x1, double y1,
-		     double x2, double y2,
-		     double x3, double y3);
+                     double x1, double y1,
+                     double x2, double y2,
+                     double x3, double y3);
 
 static svg_status_t
 _svg_cairo_quadratic_curve_to (void *closure,
-			       double x1, double y1,
-			       double x2, double y2);
+                               double x1, double y1,
+                               double x2, double y2);
 
 static svg_status_t
-_svg_cairo_arc_to (void	       *closure,
-		   double	rx,
-		   double	ry,
-		   double	x_axis_rotation,
-		   int		large_arc_flag,
-		   int		sweep_flag,
-		   double	x,
-		   double	y);
+_svg_cairo_arc_to (void        *closure,
+                   double       rx,
+                   double       ry,
+                   double       x_axis_rotation,
+                   int          large_arc_flag,
+                   int          sweep_flag,
+                   double       x,
+                   double       y);
 
 static void
 _svg_path_arc_segment (cairo_t *cr,
-		       double   xc,  double yc,
-		       double   th0, double th1,
-		       double   rx,  double ry,
-		       double   x_axis_rotation);
+                       double   xc,  double yc,
+                       double   th0, double th1,
+                       double   rx,  double ry,
+                       double   x_axis_rotation);
 
 static svg_status_t
 _svg_cairo_close_path (void *closure);
@@ -92,9 +92,9 @@ static svg_status_t
 _svg_cairo_set_text_chunk_width (void *closure, double width);
 
 static svg_status_t
-_svg_cairo_text_advance_x (void		*closure,
-			   const char 	*utf8,
-			   double	*advance);
+_svg_cairo_text_advance_x (void         *closure,
+                           const char   *utf8,
+                           double       *advance);
 
 static svg_status_t
 _svg_cairo_set_color (void *closure, const svg_color_t *color);
@@ -158,84 +158,84 @@ _svg_cairo_transform (void *closure, const svg_transform_t *transform);
 
 static svg_status_t
 _svg_cairo_apply_view_box (void *closure,
-			   const svg_view_box_t *view_box,
-			   const svg_length_t *width,
-			   const svg_length_t *height);
+                           const svg_view_box_t *view_box,
+                           const svg_length_t *width,
+                           const svg_length_t *height);
 
 static svg_status_t
 _svg_cairo_set_viewport (void *closure,
-			 const svg_length_t *x,
-			 const svg_length_t *y,
-			 const svg_length_t *width,
-			 const svg_length_t *height);
+                         const svg_length_t *x,
+                         const svg_length_t *y,
+                         const svg_length_t *width,
+                         const svg_length_t *height);
 
 static svg_status_t
 _svg_cairo_stroke_and_fill (void *closure);
 
 static svg_status_t
 _svg_cairo_render_line (void *closure,
-			const svg_length_t *x1_len, const svg_length_t *y1_len,
-			const svg_length_t *x2_len, const svg_length_t *y2_len);
+                        const svg_length_t *x1_len, const svg_length_t *y1_len,
+                        const svg_length_t *x2_len, const svg_length_t *y2_len);
 
 static svg_status_t
 _svg_cairo_render_path (void *closure, const svg_path_t *path);
 
 static svg_status_t
 _svg_cairo_render_circle (void *closure,
-			  const svg_length_t *cx,
-			  const svg_length_t *cy,
-			  const svg_length_t *r);
+                          const svg_length_t *cx,
+                          const svg_length_t *cy,
+                          const svg_length_t *r);
 
 static svg_status_t
 _svg_cairo_render_ellipse (void *closure,
-			   const svg_length_t *cx,
-			   const svg_length_t *cy,
-			   const svg_length_t *rx,
-			   const svg_length_t *ry);
+                           const svg_length_t *cx,
+                           const svg_length_t *cy,
+                           const svg_length_t *rx,
+                           const svg_length_t *ry);
 
 static svg_status_t
-_svg_cairo_render_rect (void 	     *closure,
-			const svg_length_t *x,
-			const svg_length_t *y,
-			const svg_length_t *width,
-			const svg_length_t *height,
-			const svg_length_t *rx,
-			const svg_length_t *ry);
+_svg_cairo_render_rect (void         *closure,
+                        const svg_length_t *x,
+                        const svg_length_t *y,
+                        const svg_length_t *width,
+                        const svg_length_t *height,
+                        const svg_length_t *rx,
+                        const svg_length_t *ry);
 
 static svg_status_t
-_svg_cairo_render_text (void 	      *closure,
-			const char    *utf8);
+_svg_cairo_render_text (void          *closure,
+                        const char    *utf8);
 
 static svg_status_t
-_svg_cairo_render_image (void			*closure,
-			 const char 		*url,
-			 int 			index,
-			 const svg_view_box_t	*view_box_template,
-			 const svg_length_t 	*x,
-			 const svg_length_t 	*y,
-			 const svg_length_t 	*width,
-			 const svg_length_t 	*height);
+_svg_cairo_render_image (void                   *closure,
+                         const char             *url,
+                         int                    index,
+                         const svg_view_box_t   *view_box_template,
+                         const svg_length_t     *x,
+                         const svg_length_t     *y,
+                         const svg_length_t     *width,
+                         const svg_length_t     *height);
 
 static svg_status_t
-_svg_cairo_measure_position (void	    *closure,
-			     const svg_length_t   *ix,
-			     const svg_length_t   *iy,
-			     double	    *ox,
-			     double	    *oy);
+_svg_cairo_measure_position (void           *closure,
+                             const svg_length_t   *ix,
+                             const svg_length_t   *iy,
+                             double         *ox,
+                             double         *oy);
 
 static svg_status_t
-_svg_cairo_measure_font_size (void			*closure,
-			      const char		*font_family,
-			      double			parent_font_size,
-			      const svg_length_t	*in_size,
-			      double			*out_size);
+_svg_cairo_measure_font_size (void                      *closure,
+                              const char                *font_family,
+                              double                    parent_font_size,
+                              const svg_length_t        *in_size,
+                              double                    *out_size);
 
 static svg_status_t
 _cairo_status_to_svg_status (cairo_status_t xr_status);
 
 static svg_status_t
 _svg_cairo_push_state (svg_cairo_t     *svg_cairo,
-		       cairo_surface_t *child_surface);
+                       cairo_surface_t *child_surface);
 
 static svg_status_t
 _svg_cairo_pop_state (svg_cairo_t *svg_cairo);
@@ -308,7 +308,7 @@ svg_cairo_create (svg_cairo_t **svg_cairo)
 
     *svg_cairo = malloc (sizeof (svg_cairo_t));
     if (*svg_cairo == NULL) {
-	return SVG_CAIRO_STATUS_NO_MEMORY;
+        return SVG_CAIRO_STATUS_NO_MEMORY;
     }
 
     (*svg_cairo)->cr = NULL;
@@ -321,7 +321,7 @@ svg_cairo_create (svg_cairo_t **svg_cairo)
 
     status = svg_create (&(*svg_cairo)->svg);
     if (status)
-	return status;
+        return status;
 
     _svg_cairo_push_state (*svg_cairo, NULL);
 
@@ -405,7 +405,7 @@ svg_cairo_render_2 (svg_cairo_t *svg_cairo, svg_t *svg, cairo_t *cr)
 
     svg_cairo->cr = cr;
     if (svg)
-	svg_cairo->svg = svg;
+        svg_cairo->svg = svg;
 
     status = svg_render (svg, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
 
@@ -416,16 +416,16 @@ svg_cairo_render_2 (svg_cairo_t *svg_cairo, svg_t *svg, cairo_t *cr)
 
 svg_cairo_status_t
 svg_cairo_element_render (svg_cairo_t *svg_cairo,
-			  svg_t	*svg,
-			  svg_element_t *element,
-			  cairo_t *cr)
+                          svg_t *svg,
+                          svg_element_t *element,
+                          cairo_t *cr)
 {
     svg_t *orig_svg = svg_cairo->svg;
     svg_cairo_status_t status;
 
     svg_cairo->cr = cr;
     if (svg)
-	svg_cairo->svg = svg;
+        svg_cairo->svg = svg;
 
     status = svg_element_render (element, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
 
@@ -435,17 +435,17 @@ svg_cairo_element_render (svg_cairo_t *svg_cairo,
 }
 
 svg_cairo_status_t
-svg_cairo_element_ref_render (svg_cairo_t 	*svg_cairo,
-			      svg_t		*svg,
-			      svg_element_ref_t	*element_ref,
-			      cairo_t 		*cr)
+svg_cairo_element_ref_render (svg_cairo_t       *svg_cairo,
+                              svg_t             *svg,
+                              svg_element_ref_t *element_ref,
+                              cairo_t           *cr)
 {
     svg_t *orig_svg = svg_cairo->svg;
     svg_cairo_status_t status;
 
     svg_cairo->cr = cr;
     if (svg)
-	svg_cairo->svg = svg;
+        svg_cairo->svg = svg;
 
     status = svg_element_ref_render (element_ref, &SVG_CAIRO_RENDER_ENGINE, svg_cairo);
 
@@ -464,10 +464,10 @@ svg_cairo_set_drawing_context (svg_cairo_t *svg_cairo, cairo_t *cr)
 
 static svg_status_t
 _svg_cairo_set_viewport (void *closure,
-			 const svg_length_t *x,
-			 const svg_length_t *y,
-			 const svg_length_t *width,
-			 const svg_length_t *height)
+                         const svg_length_t *x,
+                         const svg_length_t *y,
+                         const svg_length_t *width,
+                         const svg_length_t *height)
 {
     svg_cairo_t *svg_cairo = closure;
     double vx, vy;
@@ -507,8 +507,8 @@ svg_cairo_set_viewport_dimension (svg_cairo_t *svg_cairo, unsigned int width, un
 
 void
 svg_cairo_get_size (svg_cairo_t  *svg_cairo,
-		    unsigned int *width,
-		    unsigned int *height)
+                    unsigned int *width,
+                    unsigned int *height)
 {
     svg_length_t width_len, height_len;
     double width_d, height_d;
@@ -536,11 +536,11 @@ _svg_cairo_begin_group (void *closure, double opacity, const char *id, const cha
     cairo_save (svg_cairo->cr);
 
     if (opacity != 1.0) {
-	child_surface = cairo_surface_create_similar (cairo_get_target (svg_cairo->cr),
-						      CAIRO_CONTENT_COLOR_ALPHA,
-						      (unsigned int)svg_cairo->state->viewport_width,
-						      (unsigned int)svg_cairo->state->viewport_height);
-	svg_cairo->state->child_surface = child_surface;
+        child_surface = cairo_surface_create_similar (cairo_get_target (svg_cairo->cr),
+                                                      CAIRO_CONTENT_COLOR_ALPHA,
+                                                      (unsigned int)svg_cairo->state->viewport_width,
+                                                      (unsigned int)svg_cairo->state->viewport_height);
+        svg_cairo->state->child_surface = child_surface;
     }
 
     _svg_cairo_push_state (svg_cairo, child_surface);
@@ -584,13 +584,13 @@ _svg_cairo_end_group (void *closure, double opacity)
     cairo_restore (svg_cairo->cr);
 
     if (opacity != 1.0) {
-	cairo_save (svg_cairo->cr);
-	cairo_identity_matrix (svg_cairo->cr);
-	cairo_set_source_surface (svg_cairo->cr, svg_cairo->state->child_surface, 0, 0);
-	cairo_paint_with_alpha (svg_cairo->cr, opacity);
-	cairo_restore (svg_cairo->cr);
-	cairo_surface_destroy (svg_cairo->state->child_surface);
-	svg_cairo->state->child_surface = NULL;
+        cairo_save (svg_cairo->cr);
+        cairo_identity_matrix (svg_cairo->cr);
+        cairo_set_source_surface (svg_cairo->cr, svg_cairo->state->child_surface, 0, 0);
+        cairo_paint_with_alpha (svg_cairo->cr, opacity);
+        cairo_restore (svg_cairo->cr);
+        cairo_surface_destroy (svg_cairo->state->child_surface);
+        svg_cairo->state->child_surface = NULL;
     }
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
@@ -618,24 +618,24 @@ _svg_cairo_line_to (void *closure, double x, double y)
 
 static svg_status_t
 _svg_cairo_curve_to (void *closure,
-		double x1, double y1,
-		double x2, double y2,
-		double x3, double y3)
+                double x1, double y1,
+                double x2, double y2,
+                double x3, double y3)
 {
     svg_cairo_t *svg_cairo = closure;
 
     cairo_curve_to (svg_cairo->cr,
-		    x1, y1,
-		    x2, y2,
-		    x3, y3);
+                    x1, y1,
+                    x2, y2,
+                    x3, y3);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
 
 static svg_status_t
 _svg_cairo_quadratic_curve_to (void *closure,
-			  double x1, double y1,
-			  double x2, double y2)
+                          double x1, double y1,
+                          double x2, double y2)
 {
     svg_cairo_t *svg_cairo = closure;
     double x, y;
@@ -643,9 +643,9 @@ _svg_cairo_quadratic_curve_to (void *closure,
     cairo_get_current_point (svg_cairo->cr, &x, &y);
 
     cairo_curve_to (svg_cairo->cr,
-		    x  + 2.0/3.0 * (x1 - x),  y  + 2.0/3.0 * (y1 - y),
-		    x2 + 2.0/3.0 * (x1 - x2), y2 + 2.0/3.0 * (y1 - y2),
-		    x2, y2);
+                    x  + 2.0/3.0 * (x1 - x),  y  + 2.0/3.0 * (y1 - y),
+                    x2 + 2.0/3.0 * (x1 - x2), y2 + 2.0/3.0 * (y1 - y2),
+                    x2, y2);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -674,7 +674,7 @@ _svg_cairo_set_text_position_x (void *closure, const svg_length_t *x_len)
 
     status = _svg_cairo_move_to (svg_cairo, x, current_y);
     if (status)
-	return status;
+        return status;
 
     return SVG_STATUS_SUCCESS;
 }
@@ -693,7 +693,7 @@ _svg_cairo_set_text_position_y (void *closure, const svg_length_t *y_len)
 
     status = _svg_cairo_move_to (svg_cairo, current_x, y);
     if (status)
-	return status;
+        return status;
 
     return SVG_STATUS_SUCCESS;
 }
@@ -713,7 +713,7 @@ _svg_cairo_adjust_text_position (void *closure, const svg_length_t *dx_len, cons
 
     status = _svg_cairo_move_to (svg_cairo, current_x + dx, current_y + dy);
     if (status)
-	return status;
+        return status;
 
     return SVG_STATUS_SUCCESS;
 }
@@ -739,23 +739,23 @@ _svg_cairo_select_font (svg_cairo_t *svg_cairo)
     cairo_font_slant_t slant;
 
     if (! svg_cairo->state->font_dirty)
-	return SVG_STATUS_SUCCESS;
+        return SVG_STATUS_SUCCESS;
 
     if (font_weight >= 700)
-	weight = CAIRO_FONT_WEIGHT_BOLD;
+        weight = CAIRO_FONT_WEIGHT_BOLD;
     else
-	weight = CAIRO_FONT_WEIGHT_NORMAL;
+        weight = CAIRO_FONT_WEIGHT_NORMAL;
 
     switch (font_style) {
     case SVG_FONT_STYLE_ITALIC:
-	slant = CAIRO_FONT_SLANT_ITALIC;
-	break;
+        slant = CAIRO_FONT_SLANT_ITALIC;
+        break;
     case SVG_FONT_STYLE_OBLIQUE:
-	slant = CAIRO_FONT_SLANT_OBLIQUE;
-	break;
+        slant = CAIRO_FONT_SLANT_OBLIQUE;
+        break;
     default:
-	slant = CAIRO_FONT_SLANT_NORMAL;
-	break;
+        slant = CAIRO_FONT_SLANT_NORMAL;
+        break;
     }
 
     cairo_select_font_face (svg_cairo->cr, family, slant, weight);
@@ -767,9 +767,9 @@ _svg_cairo_select_font (svg_cairo_t *svg_cairo)
 #endif
 
 static svg_status_t
-_svg_cairo_text_advance_x (void		*closure,
-			   const char   *utf8,
-			   double	*advance)
+_svg_cairo_text_advance_x (void         *closure,
+                           const char   *utf8,
+                           double       *advance)
 {
     svg_cairo_t *svg_cairo = closure;
 
@@ -807,25 +807,25 @@ _svg_cairo_set_color (void *closure, const svg_color_t *color)
 
 static svg_status_t
 _svg_cairo_set_color_and_alpha (svg_cairo_t *svg_cairo,
-				const svg_color_t *color,
-				double alpha)
+                                const svg_color_t *color,
+                                double alpha)
 {
     if (color->is_current_color)
-	color = &svg_cairo->state->color;
+        color = &svg_cairo->state->color;
 
     cairo_set_source_rgba (svg_cairo->cr,
-			   svg_color_get_red   (color) / 255.0,
-			   svg_color_get_green (color) / 255.0,
-			   svg_color_get_blue  (color) / 255.0,
-			   svg_cairo->state->opacity * alpha);
+                           svg_color_get_red   (color) / 255.0,
+                           svg_color_get_green (color) / 255.0,
+                           svg_color_get_blue  (color) / 255.0,
+                           svg_cairo->state->opacity * alpha);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
 
 static svg_status_t
 _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
-			 svg_gradient_t *gradient,
-			 svg_cairo_render_type_t type)
+                         svg_gradient_t *gradient,
+                         svg_cairo_render_type_t type)
 {
     svg_gradient_stop_t *stop;
     cairo_pattern_t *pattern = NULL;
@@ -836,70 +836,70 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
 
     switch (gradient->units) {
     case SVG_COORD_SPACE_UNITS_USER:
-	break;
+        break;
     case SVG_COORD_SPACE_UNITS_BBOX:
     {
-	double x1, y1, x2, y2;
+        double x1, y1, x2, y2;
 
-	if (type == SVG_CAIRO_RENDER_TYPE_FILL)
-	    cairo_fill_extents (svg_cairo->cr, &x1, &y1, &x2, &y2);
-	else
-	    cairo_stroke_extents (svg_cairo->cr, &x1, &y1, &x2, &y2);
+        if (type == SVG_CAIRO_RENDER_TYPE_FILL)
+            cairo_fill_extents (svg_cairo->cr, &x1, &y1, &x2, &y2);
+        else
+            cairo_stroke_extents (svg_cairo->cr, &x1, &y1, &x2, &y2);
 
-	cairo_matrix_translate (&matrix, x1, y1);
-	cairo_matrix_scale (&matrix, x2 - x1, y2 - y1);
-	svg_cairo->state->length_context.bbox_user_units = 1;
+        cairo_matrix_translate (&matrix, x1, y1);
+        cairo_matrix_scale (&matrix, x2 - x1, y2 - y1);
+        svg_cairo->state->length_context.bbox_user_units = 1;
     } break;
     }
 
     switch (gradient->type) {
     case SVG_GRADIENT_LINEAR:
     {
-	double x1, y1, x2, y2;
+        double x1, y1, x2, y2;
 
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.x1, &x1);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.y1, &y1);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.x2, &x2);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.y2, &y2);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.x1, &x1);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.y1, &y1);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.x2, &x2);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.linear.y2, &y2);
 
-	pattern = cairo_pattern_create_linear (x1, y1, x2, y2);
+        pattern = cairo_pattern_create_linear (x1, y1, x2, y2);
     }
     break;
     case SVG_GRADIENT_RADIAL:
     {
-	double cx, cy, r, fx_in, fy_in, fx, fy;
+        double cx, cy, r, fx_in, fy_in, fx, fy;
 
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.cx, &cx);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.cy, &cy);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.r, &r);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fx, &fx_in);
-	_svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fy, &fy_in);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.cx, &cx);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.cy, &cy);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.r, &r);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fx, &fx_in);
+        _svg_cairo_length_to_pixel (svg_cairo, &gradient->u.radial.fy, &fy_in);
 
-	svg_legalize_radial_gradient_focal_point (cx, cy, r, fx_in, fy_in, &fx, &fy);
+        svg_legalize_radial_gradient_focal_point (cx, cy, r, fx_in, fy_in, &fx, &fy);
 
-	pattern = cairo_pattern_create_radial (fx, fy, 0.0, cx, cy, r);
+        pattern = cairo_pattern_create_radial (fx, fy, 0.0, cx, cy, r);
     } break;
     }
 
     for (i = 0; i < gradient->num_stops; i++) {
-	stop = &gradient->stops[i];
-	cairo_pattern_add_color_stop_rgba (pattern, stop->offset,
-					   svg_color_get_red (&stop->color) / 255.0,
-					   svg_color_get_green (&stop->color) / 255.0,
-					   svg_color_get_blue (&stop->color) / 255.0,
-					   svg_cairo->state->opacity * stop->opacity);
+        stop = &gradient->stops[i];
+        cairo_pattern_add_color_stop_rgba (pattern, stop->offset,
+                                           svg_color_get_red (&stop->color) / 255.0,
+                                           svg_color_get_green (&stop->color) / 255.0,
+                                           svg_color_get_blue (&stop->color) / 255.0,
+                                           svg_cairo->state->opacity * stop->opacity);
     }
 
     switch (gradient->spread) {
     case SVG_GRADIENT_SPREAD_REPEAT:
-	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
-	break;
+        cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
+        break;
     case SVG_GRADIENT_SPREAD_REFLECT:
-	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REFLECT);
-	break;
+        cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REFLECT);
+        break;
     default:
-	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_PAD);
-	break;
+        cairo_pattern_set_extend (pattern, CAIRO_EXTEND_PAD);
+        break;
     }
 
     cairo_pattern_set_filter (pattern, CAIRO_FILTER_BILINEAR);
@@ -918,8 +918,8 @@ _svg_cairo_set_gradient (svg_cairo_t *svg_cairo,
 
 static svg_status_t
 _svg_cairo_set_pattern (svg_cairo_t *svg_cairo,
-			svg_pattern_t *pattern,
-			svg_cairo_render_type_t type)
+                        svg_pattern_t *pattern,
+                        svg_cairo_render_type_t type)
 {
     cairo_surface_t *pattern_surface;
     cairo_pattern_t *surface_pattern;
@@ -948,9 +948,9 @@ _svg_cairo_set_pattern (svg_cairo_t *svg_cairo,
     cairo_save (svg_cairo->cr);
 
     pattern_surface = cairo_surface_create_similar (cairo_get_target (svg_cairo->cr),
-						    CAIRO_CONTENT_COLOR_ALPHA,
-						    (int) (width_px + 0.5),
-						    (int) (height_px + 0.5));
+                                                    CAIRO_CONTENT_COLOR_ALPHA,
+                                                    (int) (width_px + 0.5),
+                                                    (int) (height_px + 0.5));
 
     _svg_cairo_push_state (svg_cairo, pattern_surface);
     cairo_identity_matrix (svg_cairo->cr);
@@ -985,24 +985,24 @@ _svg_cairo_set_paint_and_opacity (svg_cairo_t *svg_cairo, svg_paint_t *paint, do
 
     switch (paint->type) {
     case SVG_PAINT_TYPE_NONE:
-	break;
+        break;
     case SVG_PAINT_TYPE_COLOR:
-	status = _svg_cairo_set_color_and_alpha (svg_cairo,
-						 &paint->p.color,
-						 opacity);
-	if (status)
-	    return status;
-	break;
+        status = _svg_cairo_set_color_and_alpha (svg_cairo,
+                                                 &paint->p.color,
+                                                 opacity);
+        if (status)
+            return status;
+        break;
     case SVG_PAINT_TYPE_GRADIENT:
-	status = _svg_cairo_set_gradient (svg_cairo, paint->p.gradient, type);
-	if (status)
-	    return status;
-	break;
+        status = _svg_cairo_set_gradient (svg_cairo, paint->p.gradient, type);
+        if (status)
+            return status;
+        break;
     case SVG_PAINT_TYPE_PATTERN:
-	status = _svg_cairo_set_pattern (svg_cairo, paint->p.pattern, type);
-	if (status)
-	    return status;
-	break;
+        status = _svg_cairo_set_pattern (svg_cairo, paint->p.pattern, type);
+        if (status)
+            return status;
+        break;
     }
 
     return SVG_STATUS_SUCCESS;
@@ -1035,11 +1035,11 @@ _svg_cairo_set_fill_rule (void *closure, svg_fill_rule_t fill_rule)
 
     switch (fill_rule) {
     case SVG_FILL_RULE_NONZERO:
-	cairo_set_fill_rule (svg_cairo->cr, CAIRO_FILL_RULE_WINDING);
-	break;
+        cairo_set_fill_rule (svg_cairo->cr, CAIRO_FILL_RULE_WINDING);
+        break;
     case SVG_FILL_RULE_EVEN_ODD:
-	cairo_set_fill_rule (svg_cairo->cr, CAIRO_FILL_RULE_EVEN_ODD);
-	break;
+        cairo_set_fill_rule (svg_cairo->cr, CAIRO_FILL_RULE_EVEN_ODD);
+        break;
     }
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
@@ -1052,7 +1052,7 @@ _svg_cairo_set_font_family (void *closure, const char *family)
 
 #if HAVE_PANGOCAIRO
     pango_font_description_set_family (svg_cairo->state->font_description,
-				       family);
+                                       family);
 #else
     svg_cairo->state->font_family = family;
     svg_cairo->state->font_dirty = 1;
@@ -1068,7 +1068,7 @@ _svg_cairo_set_font_size (void *closure, double size)
 
 #if HAVE_PANGOCAIRO
     pango_font_description_set_absolute_size (svg_cairo->state->font_description,
-					      (int) (size * PANGO_SCALE));
+                                              (int) (size * PANGO_SCALE));
 #else
     svg_cairo->state->font_size = size;
     svg_cairo->state->font_dirty = 1;
@@ -1083,22 +1083,22 @@ _svg_cairo_set_font_style (void *closure, svg_font_style_t font_style)
     svg_cairo_t *svg_cairo = closure;
 
 #if HAVE_PANGOCAIRO
-    PangoStyle	style;
+    PangoStyle  style;
 
     switch (font_style) {
     case SVG_FONT_STYLE_ITALIC:
-	style = PANGO_STYLE_ITALIC;
-	break;
+        style = PANGO_STYLE_ITALIC;
+        break;
     case SVG_FONT_STYLE_OBLIQUE:
-	style = PANGO_STYLE_OBLIQUE;
-	break;
+        style = PANGO_STYLE_OBLIQUE;
+        break;
     default:
-	style = PANGO_STYLE_NORMAL;
-	break;
+        style = PANGO_STYLE_NORMAL;
+        break;
     }
 
     pango_font_description_set_style (svg_cairo->state->font_description,
-				      style);
+                                      style);
 #else
     svg_cairo->state->font_style = font_style;
     svg_cairo->state->font_dirty = 1;
@@ -1115,7 +1115,7 @@ _svg_cairo_set_font_weight (void *closure, unsigned int font_weight)
 #if HAVE_PANGOCAIRO
     /* Pango weights are the same as SVG weights */
     pango_font_description_set_weight (svg_cairo->state->font_description,
-				       font_weight);
+                                       font_weight);
 #else
     svg_cairo->state->font_weight = font_weight;
     svg_cairo->state->font_dirty = 1;
@@ -1143,7 +1143,7 @@ _svg_cairo_set_stroke_dash_array (void *closure, const double *dash, int num_das
     svg_cairo->state->num_dashes = num_dashes;
 
     if (svg_cairo->state->num_dashes)
-	cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
+        cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -1159,7 +1159,7 @@ _svg_cairo_set_stroke_dash_offset (void *closure, const svg_length_t *offset_len
     svg_cairo->state->dash_offset = offset;
 
     if (svg_cairo->state->num_dashes)
-	cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
+        cairo_set_dash (svg_cairo->cr, svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -1171,14 +1171,14 @@ _svg_cairo_set_stroke_line_cap (void *closure, svg_stroke_line_cap_t line_cap)
 
     switch (line_cap) {
     case SVG_STROKE_LINE_CAP_BUTT:
-	cairo_set_line_cap (svg_cairo->cr, CAIRO_LINE_CAP_BUTT);
-	break;
+        cairo_set_line_cap (svg_cairo->cr, CAIRO_LINE_CAP_BUTT);
+        break;
     case SVG_STROKE_LINE_CAP_ROUND:
-	cairo_set_line_cap (svg_cairo->cr, CAIRO_LINE_CAP_ROUND);
-	break;
+        cairo_set_line_cap (svg_cairo->cr, CAIRO_LINE_CAP_ROUND);
+        break;
     case SVG_STROKE_LINE_CAP_SQUARE:
-	cairo_set_line_cap (svg_cairo->cr, CAIRO_LINE_CAP_SQUARE);
-	break;
+        cairo_set_line_cap (svg_cairo->cr, CAIRO_LINE_CAP_SQUARE);
+        break;
     }
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
@@ -1191,14 +1191,14 @@ _svg_cairo_set_stroke_line_join (void *closure, svg_stroke_line_join_t line_join
 
     switch (line_join) {
     case SVG_STROKE_LINE_JOIN_MITER:
-	cairo_set_line_join (svg_cairo->cr, CAIRO_LINE_JOIN_MITER);
-	break;
+        cairo_set_line_join (svg_cairo->cr, CAIRO_LINE_JOIN_MITER);
+        break;
     case SVG_STROKE_LINE_JOIN_ROUND:
-	cairo_set_line_join (svg_cairo->cr, CAIRO_LINE_JOIN_ROUND);
-	break;
+        cairo_set_line_join (svg_cairo->cr, CAIRO_LINE_JOIN_ROUND);
+        break;
     case SVG_STROKE_LINE_JOIN_BEVEL:
-	cairo_set_line_join (svg_cairo->cr, CAIRO_LINE_JOIN_BEVEL);
-	break;
+        cairo_set_line_join (svg_cairo->cr, CAIRO_LINE_JOIN_BEVEL);
+        break;
     }
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
@@ -1264,7 +1264,7 @@ _svg_cairo_end_style (void *closure)
 
 #if HAVE_PANGOCAIRO
     svg_cairo->state->font_size = ((double) pango_font_description_get_size (svg_cairo->state->font_description)
-    	/ PANGO_SCALE);
+        / PANGO_SCALE);
 #endif
 
     svg_cairo->state->length_context.font_size = svg_cairo->state->font_size;
@@ -1293,20 +1293,20 @@ _svg_cairo_stroke_and_fill (void *closure)
     stroke_paint = &svg_cairo->state->stroke_paint;
 
     if (fill_paint->type) {
-	_svg_cairo_set_paint_and_opacity (svg_cairo, fill_paint,
-					  svg_cairo->state->fill_opacity,
-					  SVG_CAIRO_RENDER_TYPE_FILL);
-	if (stroke_paint->type)
-	    cairo_fill_preserve (svg_cairo->cr);
-	else
-	    cairo_fill (svg_cairo->cr);
+        _svg_cairo_set_paint_and_opacity (svg_cairo, fill_paint,
+                                          svg_cairo->state->fill_opacity,
+                                          SVG_CAIRO_RENDER_TYPE_FILL);
+        if (stroke_paint->type)
+            cairo_fill_preserve (svg_cairo->cr);
+        else
+            cairo_fill (svg_cairo->cr);
     }
 
     if (stroke_paint->type) {
-	_svg_cairo_set_paint_and_opacity (svg_cairo, stroke_paint,
-					  svg_cairo->state->stroke_opacity,
-					  SVG_CAIRO_RENDER_TYPE_STROKE);
-	cairo_stroke (svg_cairo->cr);
+        _svg_cairo_set_paint_and_opacity (svg_cairo, stroke_paint,
+                                          svg_cairo->state->stroke_opacity,
+                                          SVG_CAIRO_RENDER_TYPE_STROKE);
+        cairo_stroke (svg_cairo->cr);
     }
 
     /* This is only strictly necessary in the odd case of both
@@ -1320,8 +1320,8 @@ _svg_cairo_stroke_and_fill (void *closure)
 
 static svg_status_t
 _svg_cairo_render_line (void *closure,
-		   const svg_length_t *x1_len, const svg_length_t *y1_len,
-		   const svg_length_t *x2_len, const svg_length_t *y2_len)
+                   const svg_length_t *x1_len, const svg_length_t *y1_len,
+                   const svg_length_t *x2_len, const svg_length_t *y2_len)
 {
     svg_cairo_t *svg_cairo = closure;
     svg_status_t status;
@@ -1334,15 +1334,15 @@ _svg_cairo_render_line (void *closure,
 
     status = _svg_cairo_move_to (svg_cairo, x1, y1);
     if (status)
-	return status;
+        return status;
 
     status = _svg_cairo_line_to (svg_cairo, x2, y2);
     if (status)
-	return status;
+        return status;
 
     status = _svg_cairo_stroke_and_fill (svg_cairo);
     if (status)
-	return status;
+        return status;
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
@@ -1355,70 +1355,70 @@ _svg_cairo_render_path (void *closure, const svg_path_t *path)
     svg_status_t status = SVG_STATUS_SUCCESS;
 
     if (path == NULL)
-	return SVG_STATUS_SUCCESS;
+        return SVG_STATUS_SUCCESS;
 
     element = path;
     while (element != NULL) {
 
-	switch (element->op) {
-	    case SVG_PATH_OP_MOVE_TO:
-	    	status = _svg_cairo_move_to (closure,
-			element->p.move_to.x,
-			element->p.move_to.y);
-		break;
-	    case SVG_PATH_OP_LINE_TO:
-	    	status = _svg_cairo_line_to (closure,
-			element->p.line_to.x,
-			element->p.line_to.y);
-		break;
-	    case SVG_PATH_OP_CURVE_TO:
-	    	status = _svg_cairo_curve_to (closure,
-			element->p.curve_to.x1,
-			element->p.curve_to.y1,
-			element->p.curve_to.x2,
-			element->p.curve_to.y2,
-			element->p.curve_to.x3,
-			element->p.curve_to.y3);
-		break;
-	    case SVG_PATH_OP_QUAD_CURVE_TO:
-	    	status = _svg_cairo_quadratic_curve_to (closure,
-			element->p.quad_curve_to.x1,
-			element->p.quad_curve_to.y1,
-			element->p.quad_curve_to.x2,
-			element->p.quad_curve_to.y2);
-		break;
-	    case SVG_PATH_OP_ARC_TO:
-	    	status = _svg_cairo_arc_to (closure,
-			element->p.arc_to.rx,
-			element->p.arc_to.ry,
-			element->p.arc_to.x_axis_rotation,
-			element->p.arc_to.large_arc_flag,
-			element->p.arc_to.sweep_flag,
-			element->p.arc_to.x,
-			element->p.arc_to.y);
-		break;
-	    case SVG_PATH_OP_CLOSE_PATH:
-	    	status = _svg_cairo_close_path (closure);
-		break;
-	}
-	if (status)
-	    return status;
+        switch (element->op) {
+            case SVG_PATH_OP_MOVE_TO:
+                status = _svg_cairo_move_to (closure,
+                        element->p.move_to.x,
+                        element->p.move_to.y);
+                break;
+            case SVG_PATH_OP_LINE_TO:
+                status = _svg_cairo_line_to (closure,
+                        element->p.line_to.x,
+                        element->p.line_to.y);
+                break;
+            case SVG_PATH_OP_CURVE_TO:
+                status = _svg_cairo_curve_to (closure,
+                        element->p.curve_to.x1,
+                        element->p.curve_to.y1,
+                        element->p.curve_to.x2,
+                        element->p.curve_to.y2,
+                        element->p.curve_to.x3,
+                        element->p.curve_to.y3);
+                break;
+            case SVG_PATH_OP_QUAD_CURVE_TO:
+                status = _svg_cairo_quadratic_curve_to (closure,
+                        element->p.quad_curve_to.x1,
+                        element->p.quad_curve_to.y1,
+                        element->p.quad_curve_to.x2,
+                        element->p.quad_curve_to.y2);
+                break;
+            case SVG_PATH_OP_ARC_TO:
+                status = _svg_cairo_arc_to (closure,
+                        element->p.arc_to.rx,
+                        element->p.arc_to.ry,
+                        element->p.arc_to.x_axis_rotation,
+                        element->p.arc_to.large_arc_flag,
+                        element->p.arc_to.sweep_flag,
+                        element->p.arc_to.x,
+                        element->p.arc_to.y);
+                break;
+            case SVG_PATH_OP_CLOSE_PATH:
+                status = _svg_cairo_close_path (closure);
+                break;
+        }
+        if (status)
+            return status;
 
-	element = element->next;
+        element = element->next;
     }
 
     status = _svg_cairo_stroke_and_fill (svg_cairo);
     if (status)
-	return status;
+        return status;
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
 }
 
 static svg_status_t
 _svg_cairo_render_circle (void *closure,
-		      	  const svg_length_t *cx_len,
-			  const svg_length_t *cy_len,
-			  const svg_length_t *r_len)
+                          const svg_length_t *cx_len,
+                          const svg_length_t *cy_len,
+                          const svg_length_t *r_len)
 {
     svg_cairo_t *svg_cairo = closure;
     cairo_matrix_t matrix;
@@ -1445,10 +1445,10 @@ _svg_cairo_render_circle (void *closure,
 
 static svg_status_t
 _svg_cairo_render_ellipse (void *closure,
-		      const svg_length_t *cx_len,
-		      const svg_length_t *cy_len,
-		      const svg_length_t *rx_len,
-		      const svg_length_t *ry_len)
+                      const svg_length_t *cx_len,
+                      const svg_length_t *cy_len,
+                      const svg_length_t *rx_len,
+                      const svg_length_t *ry_len)
 {
     svg_cairo_t *svg_cairo = closure;
     cairo_matrix_t matrix;
@@ -1477,12 +1477,12 @@ _svg_cairo_render_ellipse (void *closure,
 
 static svg_status_t
 _svg_cairo_render_rect (void *closure,
-		   	const svg_length_t *x_len,
-			const svg_length_t *y_len,
-			const svg_length_t *width_len,
-			const svg_length_t *height_len,
-			const svg_length_t *rx_len,
-			const svg_length_t *ry_len)
+                        const svg_length_t *x_len,
+                        const svg_length_t *y_len,
+                        const svg_length_t *width_len,
+                        const svg_length_t *height_len,
+                        const svg_length_t *rx_len,
+                        const svg_length_t *ry_len)
 {
     svg_cairo_t *svg_cairo = closure;
 
@@ -1496,28 +1496,28 @@ _svg_cairo_render_rect (void *closure,
     _svg_cairo_length_to_pixel (svg_cairo, ry_len, &ry);
 
     if (rx > width / 2.0)
-	rx = width / 2.0;
+        rx = width / 2.0;
     if (ry > height / 2.0)
-	ry = height / 2.0;
+        ry = height / 2.0;
 
     if (rx > 0 || ry > 0)
     {
-	_svg_cairo_move_to (svg_cairo, x + rx, y);
-	_svg_cairo_line_to (svg_cairo, x + width - rx, y);
-	_svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x + width, y + ry);
-	_svg_cairo_line_to (svg_cairo, x + width, y + height - ry);
-	_svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x + width - rx, y + height);
-	_svg_cairo_line_to (svg_cairo, x + rx, y + height);
-	_svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x, y + height - ry);
-	_svg_cairo_line_to (svg_cairo, x, y + ry);
-	_svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x + rx, y);
+        _svg_cairo_move_to (svg_cairo, x + rx, y);
+        _svg_cairo_line_to (svg_cairo, x + width - rx, y);
+        _svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x + width, y + ry);
+        _svg_cairo_line_to (svg_cairo, x + width, y + height - ry);
+        _svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x + width - rx, y + height);
+        _svg_cairo_line_to (svg_cairo, x + rx, y + height);
+        _svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x, y + height - ry);
+        _svg_cairo_line_to (svg_cairo, x, y + ry);
+        _svg_cairo_arc_to  (svg_cairo, rx, ry, 0, 0, 1, x + rx, y);
     }
     else
     {
-	_svg_cairo_move_to (svg_cairo, x, y);
-	_svg_cairo_line_to (svg_cairo, x + width, y);
-	_svg_cairo_line_to (svg_cairo, x + width, y + height);
-	_svg_cairo_line_to (svg_cairo, x, y + height);
+        _svg_cairo_move_to (svg_cairo, x, y);
+        _svg_cairo_line_to (svg_cairo, x + width, y);
+        _svg_cairo_line_to (svg_cairo, x + width, y + height);
+        _svg_cairo_line_to (svg_cairo, x, y + height);
     }
     _svg_cairo_close_path (svg_cairo);
 
@@ -1528,7 +1528,7 @@ _svg_cairo_render_rect (void *closure,
 
 static svg_status_t
 _svg_cairo_render_text (void *closure,
-			const char *utf8)
+                        const char *utf8)
 {
     svg_cairo_t *svg_cairo = closure;
     svg_status_t status;
@@ -1546,28 +1546,28 @@ _svg_cairo_render_text (void *closure,
     stroke_paint = &svg_cairo->state->stroke_paint;
 
     if (utf8 == NULL || *utf8 == '\0')
-	return SVG_STATUS_SUCCESS;
+        return SVG_STATUS_SUCCESS;
 
     if (svg_cairo->text_chunk_width != 0) {
-	switch (svg_cairo->state->text_anchor)
-	{
-	    case SVG_TEXT_ANCHOR_START:
-	    	offset_x = 0;
-	    	break;
-	    case SVG_TEXT_ANCHOR_MIDDLE:
-	    	offset_x = -svg_cairo->text_chunk_width / 2;
-	    	break;
-	    case SVG_TEXT_ANCHOR_END:
-	    	offset_x = -svg_cairo->text_chunk_width;
-	    	break;
-	}
+        switch (svg_cairo->state->text_anchor)
+        {
+            case SVG_TEXT_ANCHOR_START:
+                offset_x = 0;
+                break;
+            case SVG_TEXT_ANCHOR_MIDDLE:
+                offset_x = -svg_cairo->text_chunk_width / 2;
+                break;
+            case SVG_TEXT_ANCHOR_END:
+                offset_x = -svg_cairo->text_chunk_width;
+                break;
+        }
 
-	cairo_get_current_point (svg_cairo->cr, &current_x, &current_y);
-	status = _svg_cairo_move_to (svg_cairo, current_x + offset_x, current_y);
-	if (status)
-	    return status;
+        cairo_get_current_point (svg_cairo->cr, &current_x, &current_y);
+        status = _svg_cairo_move_to (svg_cairo, current_x + offset_x, current_y);
+        if (status)
+            return status;
 
-	svg_cairo->text_chunk_width = 0;
+        svg_cairo->text_chunk_width = 0;
     }
 
 #if HAVE_PANGOCAIRO
@@ -1580,31 +1580,31 @@ _svg_cairo_render_text (void *closure,
 #endif
 
     if (fill_paint->type) {
-	if (stroke_paint->type)
-	    cairo_save (svg_cairo->cr);
-	_svg_cairo_set_paint_and_opacity (svg_cairo, fill_paint,
-					  svg_cairo->state->fill_opacity,
-					  SVG_CAIRO_RENDER_TYPE_FILL);
+        if (stroke_paint->type)
+            cairo_save (svg_cairo->cr);
+        _svg_cairo_set_paint_and_opacity (svg_cairo, fill_paint,
+                                          svg_cairo->state->fill_opacity,
+                                          SVG_CAIRO_RENDER_TYPE_FILL);
 
 #if HAVE_PANGOCAIRO
-	pango_cairo_show_layout_line (svg_cairo->cr, line);
+        pango_cairo_show_layout_line (svg_cairo->cr, line);
 #else
-	cairo_show_text (svg_cairo->cr, utf8);
+        cairo_show_text (svg_cairo->cr, utf8);
 #endif
-	if (stroke_paint->type)
-	    cairo_restore (svg_cairo->cr);
+        if (stroke_paint->type)
+            cairo_restore (svg_cairo->cr);
     }
 
     if (stroke_paint->type) {
-	_svg_cairo_set_paint_and_opacity (svg_cairo, stroke_paint,
-					  svg_cairo->state->stroke_opacity,
-					  SVG_CAIRO_RENDER_TYPE_STROKE);
+        _svg_cairo_set_paint_and_opacity (svg_cairo, stroke_paint,
+                                          svg_cairo->state->stroke_opacity,
+                                          SVG_CAIRO_RENDER_TYPE_STROKE);
 #if HAVE_PANGOCAIRO
-	pango_cairo_layout_line_path (svg_cairo->cr, line);
+        pango_cairo_layout_line_path (svg_cairo->cr, line);
 #else
-	cairo_text_path (svg_cairo->cr, utf8);
+        cairo_text_path (svg_cairo->cr, utf8);
 #endif
-	cairo_stroke (svg_cairo->cr);
+        cairo_stroke (svg_cairo->cr);
     }
 
 #if HAVE_PANGOCAIRO
@@ -1614,7 +1614,7 @@ _svg_cairo_render_text (void *closure,
     cairo_get_current_point (svg_cairo->cr, &current_x, &current_y);
     status = _svg_cairo_move_to (svg_cairo, current_x + advance_x, current_y);
     if (status)
-	return status;
+        return status;
 
     g_object_unref (layout);
 #endif
@@ -1624,13 +1624,13 @@ _svg_cairo_render_text (void *closure,
 
 static svg_status_t
 _svg_cairo_render_image (void  *closure,
-			 const char *uri,
-			 int index,
-			 const svg_view_box_t *view_box_template,
-			 const svg_length_t *x_len,
-			 const svg_length_t *y_len,
-			 const svg_length_t *width_len,
-			 const svg_length_t *height_len)
+                         const char *uri,
+                         int index,
+                         const svg_view_box_t *view_box_template,
+                         const svg_length_t *x_len,
+                         const svg_length_t *y_len,
+                         const svg_length_t *width_len,
+                         const svg_length_t *height_len)
 {
     svg_cairo_t *svg_cairo = closure;
     svg_status_t status;
@@ -1643,7 +1643,7 @@ _svg_cairo_render_image (void  *closure,
 
     status = svg_get_bgra_image (uri, &data, &data_width, &data_height);
     if (status)
-	return status;
+        return status;
 
     cairo_save (svg_cairo->cr);
 
@@ -1656,18 +1656,18 @@ _svg_cairo_render_image (void  *closure,
     svg_complete_image_viewbox (&view_box, data_width, data_height);
     status = svg_get_viewbox_transform (&view_box, width, height, &transform);
     if (status)
-	return status;
+        return status;
 
     surface = cairo_image_surface_create_for_data ((unsigned char *)data, CAIRO_FORMAT_ARGB32,
-	    data_width, data_height, data_width *4);
+            data_width, data_height, data_width *4);
     cairo_translate (svg_cairo->cr, x, y);
     cairo_transform (svg_cairo->cr, (cairo_matrix_t*)&transform);
 
     cairo_set_source_surface (svg_cairo->cr, surface, 0, 0);
     if (svg_cairo->state->opacity != 1.0)
-	cairo_paint_with_alpha (svg_cairo->cr, svg_cairo->state->opacity);
+        cairo_paint_with_alpha (svg_cairo->cr, svg_cairo->state->opacity);
     else
-	cairo_paint (svg_cairo->cr);
+        cairo_paint (svg_cairo->cr);
 
     cairo_surface_destroy (surface);
 
@@ -1683,19 +1683,19 @@ _cairo_status_to_svg_status (cairo_status_t xr_status)
 {
     switch (xr_status) {
     case CAIRO_STATUS_NO_MEMORY:
-	return SVG_STATUS_NO_MEMORY;
+        return SVG_STATUS_NO_MEMORY;
     case CAIRO_STATUS_SUCCESS:
     default:
-	return SVG_STATUS_SUCCESS;
+        return SVG_STATUS_SUCCESS;
     }
 }
 
 static svg_status_t
 _svg_cairo_measure_position (void *closure,
-			     const svg_length_t *ix,
-			     const svg_length_t *iy,
-			     double *ox,
-			     double *oy)
+                             const svg_length_t *ix,
+                             const svg_length_t *iy,
+                             double *ox,
+                             double *oy)
 {
     svg_cairo_t *svg_cairo = closure;
 
@@ -1707,10 +1707,10 @@ _svg_cairo_measure_position (void *closure,
 
 static svg_status_t
 _svg_cairo_measure_font_size (void *closure,
-			      const char *font_family,
-			      double parent_font_size,
-			      const svg_length_t *in_size,
-			      double *out_size)
+                              const char *font_family,
+                              double parent_font_size,
+                              const svg_length_t *in_size,
+                              double *out_size)
 {
     svg_cairo_t *svg_cairo = closure;
 
@@ -1721,18 +1721,18 @@ _svg_cairo_measure_font_size (void *closure,
     case SVG_LENGTH_UNIT_IN:
     case SVG_LENGTH_UNIT_PT:
     case SVG_LENGTH_UNIT_PC:
-    	_svg_cairo_length_to_pixel (svg_cairo, in_size, out_size);
-	break;
+        _svg_cairo_length_to_pixel (svg_cairo, in_size, out_size);
+        break;
     case SVG_LENGTH_UNIT_EM:
     case SVG_LENGTH_UNIT_EX:
-    	/* XXX: should info obtained from the font family be used here? */
-    	_svg_cairo_length_to_pixel (svg_cairo, in_size, out_size);
-	break;
+        /* XXX: should info obtained from the font family be used here? */
+        _svg_cairo_length_to_pixel (svg_cairo, in_size, out_size);
+        break;
     case SVG_LENGTH_UNIT_PCT:
-	*out_size = (in_size->value / 100.0) * parent_font_size;
-	break;
+        *out_size = (in_size->value / 100.0) * parent_font_size;
+        break;
     default:
-	*out_size = in_size->value;
+        *out_size = in_size->value;
     }
 
     return SVG_STATUS_SUCCESS;
@@ -1740,8 +1740,8 @@ _svg_cairo_measure_font_size (void *closure,
 
 static void
 _svg_cairo_copy_cairo_state (svg_cairo_t *svg_cairo,
-			     cairo_t     *old_cr,
-			     cairo_t     *new_cr)
+                             cairo_t     *old_cr,
+                             cairo_t     *new_cr)
 {
     cairo_matrix_t ctm;
 
@@ -1762,42 +1762,42 @@ _svg_cairo_copy_cairo_state (svg_cairo_t *svg_cairo,
 
     /* There is no cairo_get_dash, but we already have a copy ourselves */
     cairo_set_dash (new_cr,
-		    svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
+                    svg_cairo->state->dash, svg_cairo->state->num_dashes, svg_cairo->state->dash_offset);
 }
 
 static svg_status_t
 _svg_cairo_push_state (svg_cairo_t     *svg_cairo,
-		       cairo_surface_t *child_surface)
+                       cairo_surface_t *child_surface)
 {
     if (!svg_cairo->state)
     {
-	svg_cairo->state = _svg_cairo_state_push (svg_cairo->state);
-	svg_cairo->state->viewport_width = svg_cairo->viewport_width;
-	svg_cairo->state->viewport_height = svg_cairo->viewport_height;
-	svg_cairo->state->view_box_width = svg_cairo->viewport_width;
-	svg_cairo->state->view_box_height = svg_cairo->viewport_height;
-	svg_cairo->state->length_context.viewport_width = svg_cairo->viewport_width;
-	svg_cairo->state->length_context.viewport_height = svg_cairo->viewport_height;
+        svg_cairo->state = _svg_cairo_state_push (svg_cairo->state);
+        svg_cairo->state->viewport_width = svg_cairo->viewport_width;
+        svg_cairo->state->viewport_height = svg_cairo->viewport_height;
+        svg_cairo->state->view_box_width = svg_cairo->viewport_width;
+        svg_cairo->state->view_box_height = svg_cairo->viewport_height;
+        svg_cairo->state->length_context.viewport_width = svg_cairo->viewport_width;
+        svg_cairo->state->length_context.viewport_height = svg_cairo->viewport_height;
     }
     else
     {
-	if (child_surface)
-	{
-	    cairo_t *new_cr = cairo_create (child_surface);
-	    if (!new_cr)
-		return SVG_STATUS_NO_MEMORY;
+        if (child_surface)
+        {
+            cairo_t *new_cr = cairo_create (child_surface);
+            if (!new_cr)
+                return SVG_STATUS_NO_MEMORY;
 
-	    svg_cairo->state->saved_cr = svg_cairo->cr;
-	    svg_cairo->cr = new_cr;
+            svg_cairo->state->saved_cr = svg_cairo->cr;
+            svg_cairo->cr = new_cr;
 
-	    _svg_cairo_copy_cairo_state (svg_cairo, svg_cairo->state->saved_cr, svg_cairo->cr);
-	}
-	svg_cairo->state = _svg_cairo_state_push (svg_cairo->state);
+            _svg_cairo_copy_cairo_state (svg_cairo, svg_cairo->state->saved_cr, svg_cairo->cr);
+        }
+        svg_cairo->state = _svg_cairo_state_push (svg_cairo->state);
     }
 
 
     if (svg_cairo->state == NULL)
-	return SVG_STATUS_NO_MEMORY;
+        return SVG_STATUS_NO_MEMORY;
 
     return SVG_STATUS_SUCCESS;
 }
@@ -1808,9 +1808,9 @@ _svg_cairo_pop_state (svg_cairo_t *svg_cairo)
     svg_cairo->state = _svg_cairo_state_pop (svg_cairo->state);
 
     if (svg_cairo->state && svg_cairo->state->saved_cr) {
-	cairo_destroy (svg_cairo->cr);
-	svg_cairo->cr = svg_cairo->state->saved_cr;
-	svg_cairo->state->saved_cr = NULL;
+        cairo_destroy (svg_cairo->cr);
+        svg_cairo->cr = svg_cairo->state->saved_cr;
+        svg_cairo->state->saved_cr = NULL;
     }
 
     return SVG_STATUS_SUCCESS;
@@ -1826,9 +1826,9 @@ _svg_cairo_length_to_pixel (svg_cairo_t * svg_cairo, const svg_length_t *length,
 
 static svg_status_t
 _svg_cairo_apply_view_box (void *closure,
-			   const svg_view_box_t *view_box,
-			   const svg_length_t *width,
-			   const svg_length_t *height)
+                           const svg_view_box_t *view_box,
+                           const svg_length_t *width,
+                           const svg_length_t *height)
 {
     svg_cairo_t *svg_cairo = closure;
     double phys_width, phys_height;
@@ -1846,7 +1846,7 @@ _svg_cairo_apply_view_box (void *closure,
 
     status = svg_get_viewbox_transform (view_box, phys_width, phys_height, &transform);
     if (status)
-	return status;
+        return status;
 
     cairo_transform (svg_cairo->cr, (cairo_matrix_t*)&transform);
 
@@ -1863,9 +1863,9 @@ _svg_cairo_apply_view_box (void *closure,
 */
 static void
 _svg_path_arc_segment (cairo_t *cr,
-		       double xc, double yc,
-		       double th0, double th1,
-		       double rx, double ry, double x_axis_rotation)
+                       double xc, double yc,
+                       double th0, double th1,
+                       double rx, double ry, double x_axis_rotation)
 {
     double x1, y1, x2, y2, x3, y3;
     double t;
@@ -1886,12 +1886,12 @@ _svg_path_arc_segment (cairo_t *cr,
     y2 = y3 - ry * (t * cos (th1));
 
     cairo_curve_to (cr,
-		    xc + cosf * x1 - sinf * y1,
-		    yc + sinf * x1 + cosf * y1,
-		    xc + cosf * x2 - sinf * y2,
-		    yc + sinf * x2 + cosf * y2,
-		    xc + cosf * x3 - sinf * y3,
-		    yc + sinf * x3 + cosf * y3);
+                    xc + cosf * x1 - sinf * y1,
+                    yc + sinf * x1 + cosf * y1,
+                    xc + cosf * x2 - sinf * y2,
+                    yc + sinf * x2 + cosf * y2,
+                    xc + cosf * x3 - sinf * y3,
+                    yc + sinf * x3 + cosf * y3);
 }
 
 /**
@@ -1907,14 +1907,14 @@ _svg_path_arc_segment (cairo_t *cr,
  *
  **/
 static svg_status_t
-_svg_cairo_arc_to (void		*closure,
-	      double		rx,
-	      double		ry,
-	      double		x_axis_rotation,
-	      int		large_arc_flag,
-	      int		sweep_flag,
-	      double		x,
-	      double		y)
+_svg_cairo_arc_to (void         *closure,
+              double            rx,
+              double            ry,
+              double            x_axis_rotation,
+              int               large_arc_flag,
+              int               sweep_flag,
+              double            x,
+              double            y)
 {
     svg_cairo_t *svg_cairo = closure;
     svg_path_arc_to_t e_arc;
@@ -1935,7 +1935,7 @@ _svg_cairo_arc_to (void		*closure,
 
     result = svg_center_point_param_arc (cur_x, cur_y, &e_arc, &c_arc);
     if (result != 0)
-	return SVG_STATUS_SUCCESS; /* XXX: return error instead? */
+        return SVG_STATUS_SUCCESS; /* XXX: return error instead? */
 
     c_arc.start_angle *= M_PI / 180;
     c_arc.delta_angle *= M_PI / 180;
@@ -1949,12 +1949,12 @@ _svg_cairo_arc_to (void		*closure,
     n_segs = (int)ceil (fabs (c_arc.delta_angle / (M_PI * 0.5 + 0.001)));
 
     for (i = 0; i < n_segs; i++) {
-	_svg_path_arc_segment (svg_cairo->cr,
-			       c_arc.cx, c_arc.cy,
-			       c_arc.start_angle + i * c_arc.delta_angle / n_segs,
-			       c_arc.start_angle + (i + 1) * c_arc.delta_angle / n_segs,
-			       c_arc.rx, c_arc.ry,
-			       x_axis_rotation);
+        _svg_path_arc_segment (svg_cairo->cr,
+                               c_arc.cx, c_arc.cy,
+                               c_arc.start_angle + i * c_arc.delta_angle / n_segs,
+                               c_arc.start_angle + (i + 1) * c_arc.delta_angle / n_segs,
+                               c_arc.rx, c_arc.ry,
+                               x_axis_rotation);
     }
 
     return _cairo_status_to_svg_status (cairo_status (svg_cairo->cr));
