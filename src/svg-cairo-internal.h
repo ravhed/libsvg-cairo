@@ -59,7 +59,7 @@ typedef struct svg_cairo_state {
     cairo_t *saved_cr;
 
     svg_length_context_t length_context;
-    
+
     svg_color_t color;
 
     svg_paint_t fill_paint;
@@ -101,7 +101,7 @@ struct svg_cairo {
 
     unsigned int viewport_width;
     unsigned int viewport_height;
-    
+
     double text_chunk_width;
 };
 
@@ -138,3 +138,4 @@ _svg_cairo_state_pop (svg_cairo_state_t *state);
 
 
 #endif
+

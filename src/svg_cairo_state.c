@@ -41,7 +41,7 @@ svg_cairo_status_t
 _svg_cairo_state_init (svg_cairo_state_t *state)
 {
     memset (state, 0, sizeof(*state));
-    
+
     /* trust libsvg to set all of these to reasonable defaults:
     state->fill_paint;
     state->stroke_paint;
@@ -63,7 +63,7 @@ _svg_cairo_state_init (svg_cairo_state_t *state)
     state->opacity = 1.0;
 
     state->text_anchor = SVG_TEXT_ANCHOR_START;
-    
+
     state->length_context.dpi = 90;
     state->length_context.font_size = 1.0;
     state->length_context.x_height = 1.0;
@@ -157,3 +157,4 @@ _svg_cairo_state_pop (svg_cairo_state_t *state)
 
     return next;
 }
+

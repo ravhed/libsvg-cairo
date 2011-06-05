@@ -49,7 +49,7 @@ _svg_cairo_vsprintf_alloc (char **str, const char *fmt, va_list ap)
     char *new_str;
     /* Guess we need no more than 100 bytes. */
     int n, size = 100;
- 
+
     if ((*str = malloc (size)) == NULL)
 	return -1;
     while (1) {
@@ -72,3 +72,4 @@ _svg_cairo_vsprintf_alloc (char **str, const char *fmt, va_list ap)
 	*str = new_str;
     }
 }
+
