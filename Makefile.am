@@ -5,7 +5,12 @@ EXTRA_DIST =\
 	libsvg-cairo.pc.in
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libsvg-cairo.pc
+pkgconfig_DATA = libsvg-cairo-$(LIBSVG_CAIRO_MAJORMINOR).pc
+
+libsvg-cairo-$(LIBSVG_CAIRO_MAJORMINOR).pc: libsvg-cairo.pc
+	cp libsvg-cairo.pc libsvg-cairo-$(LIBSVG_CAIRO_MAJORMINOR).pc
+
+CLEANFILES = libsvg-cairo-$(LIBSVG_CAIRO_MAJORMINOR).pc
 
 # Some custom targets to make it easier to release things.
 # Use either:

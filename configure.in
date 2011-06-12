@@ -3,16 +3,18 @@ AC_INIT(src/svg-cairo.h)
 dnl ===========================================================================
 
 # Package version number, (as distinct from shared library version)
-LIBSVG_CAIRO_VERSION=0.5.0
+LIBSVG_CAIRO_MAJORMINOR=0.6
+LIBSVG_CAIRO_VERSION=$LIBSVG_CAIRO_MAJORMINOR.0
+AC_SUBST(LIBSVG_CAIRO_MAJORMINOR)
 
 # libtool shared library version
 
 # Increment if the interface has additions, changes, removals.
-m4_define(LT_CURRENT, 1)
+m4_define(LT_CURRENT, 2)
 
 # Increment any time the source changes; set to
 # 0 if you increment CURRENT
-m4_define(LT_REVISION, 1)
+m4_define(LT_REVISION, 0)
 
 # Increment if any interfaces have been added; set to 0
 # if any interfaces have been removed. removal has
@@ -53,7 +55,10 @@ AC_SUBST(WARN_CFLAGS)
 
 dnl ===========================================================================
 
-PKG_CHECK_MODULES(LIBSVG_CAIRO, libsvg >= 0.1.4 cairo >= 0.5.0)
+LIBSVG_MAJORMINOR=0.6
+AC_SUBST(LIBSVG_MAJORMINOR)
+
+PKG_CHECK_MODULES(LIBSVG_CAIRO, libsvg-$LIBSVG_MAJORMINOR >= $LIBSVG_MAJORMINOR.0 cairo >= 0.5.0)
 AC_SUBST(LIBSVG_CAIRO_CFLAGS)
 AC_SUBST(LIBSVG_CAIRO_LIBS)
 
