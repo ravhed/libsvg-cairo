@@ -776,12 +776,10 @@ _svg_cairo_text_advance_x (void         *closure,
 #if HAVE_PANGOCAIRO
     PangoRectangle log;
     PangoLayout *layout;
-    PangoLayoutLine *line;
 
     layout = pango_cairo_create_layout (svg_cairo->cr);
     pango_layout_set_font_description (layout, svg_cairo->state->font_description);
     pango_layout_set_text (layout, utf8, -1);
-    line = pango_layout_get_lines (layout)->data;
     pango_layout_get_extents (layout, NULL, &log);
     *advance = (double) log.width / PANGO_SCALE;
     g_object_unref (layout);
