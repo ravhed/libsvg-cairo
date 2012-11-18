@@ -21,7 +21,9 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+#if !defined (__USE_ISOC99)
 #define __USE_ISOC99
+#endif
 #include <stdio.h>
 #if defined (_MSC_VER)
 #define vsnprintf _vsnprintf
