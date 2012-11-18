@@ -29,6 +29,8 @@ dnl ===========================================================================
 AM_INIT_AUTOMAKE(libsvg-cairo, $LIBSVG_CAIRO_VERSION)
 AM_CONFIG_HEADER(config.h)
 
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
 AM_MAINTAINER_MODE
 
 AC_ISC_POSIX
