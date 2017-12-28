@@ -1,4 +1,6 @@
-libsvg-cairo - Render SVG content using cairo
+# libsvg-cairo - Render SVG content using cairo
+
+Code was taken from https://sourceforge.net/projects/svg2swf/ in order for libsvg-cairo to use the correct libsvg version.
 
 Description
 -----------
